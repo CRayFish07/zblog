@@ -24,7 +24,6 @@ public class BlogController {
         return UUID.randomUUID().toString();
     }
 
-
     @PostMapping("/blog")
     public String postBlog() {
         return UUID.randomUUID().toString();
@@ -50,8 +49,13 @@ public class BlogController {
         return UUID.randomUUID().toString();
     }
 
+    @PostMapping("/blog/comment")
+    public String postBlogComment(BlogComment comment) {
+        return UUID.randomUUID().toString();
+    }
+
     @PutMapping("/blog/comment")
-    public String getBlogComment(BlogComment comment) {
+    public String putBlogComment(BlogComment comment) {
         return UUID.randomUUID().toString();
     }
 
