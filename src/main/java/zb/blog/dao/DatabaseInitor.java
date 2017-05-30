@@ -29,13 +29,14 @@ public interface DatabaseInitor {
     void createTableBlogContent();
 
     //每条记录存储20条评论
-    @Update("CREATE TABLE IF NOT EXISTS comment" +
+    @Update("CREATE TABLE IF NOT EXISTS blog_comment" +
             "(uid VARCHAR(36) ," +
-            "seq BIGINT NOT NULL, " +
+            "dt BIGINT NOT NULL, " +
             "updatedt BIGINT NOT NULL,"+
+            "comment_count INT NOT NULL,"+
             "content CLOB(1M))")
     void createTableComment();
 
-    @Update("CREATE INDEX comment_uid_seq ON comment(uid,seq)")
+    @Update("CREATE INDEX comment_uid_dt ON comment(uid,dt)")
     void createTableCommentIndexUidSeq() ;
 }

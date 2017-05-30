@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import zb.blog.model.BlogMeta;
 
+import java.util.List;
+
 /**
  * Created by zhmt on 2017/5/26.
  */
@@ -14,9 +16,16 @@ public interface BlogMetaMapper {
     @Update("UPDATE blog_meta SET dt=#dt,updatedt=#updatedt,author=#author,title=#title WHERE uid=#uid")
     public int put(BlogMeta meta);
 
-    @Select("SELECT * FROM blog_meta WHERE uid=#uid")
-    public void get(String uid);
+    @Update("DELETE FROM blog_meta WHERE uid=#uid")
+    public int delete(String uid);
 
+    @Select("SELECT * FROM blog_meta WHERE uid=#uid")
+    public BlogMeta get(String uid);
+
+    //offset 从 0 开始
     @Select("SELECT * FROM blog_meta ORDER BY updatedt DESC LIMIT #offset,#pageSize")
-    public void get(int offset,int pageSize);
+    public List<BlogMeta> getList(int offset, int pageSize);
+
+    @Select("SELECT count(uid) FROM blog_meta")
+    public int count();
 }

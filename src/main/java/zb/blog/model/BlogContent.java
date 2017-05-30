@@ -5,6 +5,9 @@ package zb.blog.model;
  */
 public class BlogContent {
     public String uid;
+    public Long dt;
     public Long updatedt;
+    //当前保存了几条评论
+    public Integer commentCount;
     public String content;
 }
