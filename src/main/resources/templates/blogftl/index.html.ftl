@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="${cfg.lang}">
 <head>
-    <meta charset="UTF-8">    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <#include "comm/common.header.ftl">
 
-    <title>${cfg.blogName}</title>
+    <title>主页 - ${cfg.blogName}</title>
 
-    <#include "comm/common.css.ftl">
 </head>
 <body>
 <!-- Fixed navbar -->
@@ -17,18 +14,15 @@
 
     <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-            <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+        <h1 class="display-3">Jumbotron heading</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
     </div>
 
 </div> <!-- /container -->
 
-
+<#include "comm/navbar.bottom.html.ftl">
 <#include "comm/common.js.ftl">
-<script src="js/index.js"></script>
+<script src="${cfg.rootUrl}/js/index.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" >
         <link rel="stylesheet" href="http://127.0.0.1:8080/css/blog.css">
-    <title>主页 - ZBLOG</title>
+    <title>发表文章 - ZBLOG</title>
 
 </head>
 <body>
@@ -38,17 +38,51 @@
     </div>
 </nav>
 <div class="container">
-
-    <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1 class="display-3">Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
-    </div>
-
+    <h1 class="text-center">发表文章</h1>
+    <form id="postBlogForm" class="form-horizontal">
+        <div class="form-group row">
+            <label for="title" class="offset-sm-1 col-sm-1 col-form-label">标题</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" placeholder="标题不能为空,最多128个汉字或字母">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="author" class="offset-sm-1 col-sm-1 col-form-label">作者</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="author" placeholder="作者不能为空,最多64个汉字或字母">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="content" class="offset-sm-1 col-sm-1 col-form-label">正文</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" id="content" rows="20" placeholder="正文不能为空,最多10240个字母"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <button id="submit" type="submit" class="btn btn-primary">发表文章</button>
+            </div>
+        </div>
+    </form>
 </div> <!-- /container -->
 
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-bottom bg-inverse">
+
+
+<div  id="msgtipModal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="msgtipModalTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="msgtipModalContent" class="modal-body">
+                ...
+            </div>
+                    </div>
+    </div>
+</div><nav class="navbar navbar-toggleable-md navbar-inverse fixed-bottom bg-inverse">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -79,6 +113,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <script src="http://127.0.0.1:8080/js/var.js"></script>
-<script src="http://127.0.0.1:8080/js/index.js"></script>
+<script src="http://127.0.0.1:8080/js/postblog.js"></script>
 </body>
 </html>

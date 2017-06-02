@@ -32,11 +32,10 @@ public interface DatabaseInitor {
     @Update("CREATE TABLE IF NOT EXISTS blog_comment" +
             "(uid VARCHAR(36) ," +
             "dt BIGINT NOT NULL, " +
-            "updatedt BIGINT NOT NULL,"+
             "comment_count INT NOT NULL,"+
             "content CLOB(1M))")
     void createTableComment();
 
-    @Update("CREATE INDEX comment_uid_dt ON comment(uid,dt)")
+    @Update("CREATE INDEX comment_uid_dt ON blog_comment(uid,dt)")
     void createTableCommentIndexUidSeq() ;
 }

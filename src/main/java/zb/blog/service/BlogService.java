@@ -1,0 +1,99 @@
+package zb.blog.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import zb.blog.BlogCfg;
+import zb.blog.dao.BlogContentMapper;
+import zb.blog.dao.BlogMetaMapper;
+import zb.blog.model.BlogContent;
+import zb.blog.model.BlogMeta;
+import zb.blog.model.BlogPage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * Created by zhmt on 2017/5/31.
+ */
+@Service
+public class BlogService {
+    @Autowired
+    private BlogMetaMapper blogMetaMapper;
+
+    @Autowired
+    private BlogContentMapper blogContentMapper;
+
+    @Autowired
+    private BlogCfg blogCfg;
+
+    //新建博文无需排队
+    public void postBlog(String title, String author, String password, String content) {
+        long timenow = System.currentTimeMillis();
+        BlogMeta meta = new BlogMeta();
+        meta.title = title;
+        meta.author = author;
+        meta.dt = timenow;
+        meta.updatedt = timenow;
+        meta.uid = UUID.randomUUID().toString();
+        BlogContent blogContent = new BlogContent();
+        blogContent.content = content;
+        blogContent.dt = timenow;
+        blogContent.updatedt = timenow;
+        blogContent.uid = meta.uid;
+        blogMetaMapper.post(meta);
+        blogContentMapper.post(blogContent);
+    }
+
+    //获取列表，无需排队 1-xxx
+    public List<BlogMeta> list(int pageNum) {
+        return blogMetaMapper.getList((pageNum-1)*blogCfg.blogListPageSize,blogCfg.blogListPageSize);
+    }
+
+    public BlogPage getPage(Integer page) {
+        BlogPage ret = new BlogPage();
+        if(page==null)
+            page = 1;
+        else
+            page = page<1?1:page;
+
+        ret.pageCount = getBlogPageCount();
+        if(ret.pageCount>0) {
+            page = page > ret.pageCount ? ret.pageCount : page;
+            List<BlogMeta> list = list(page);
+            ret.list = new ArrayList<>();
+            List<BlogMeta> tmp = null;
+            for(int i=0; i<list.size(); i++) {
+                if(i%2==0) {
+                    if(tmp!=null) {
+                        ret.list.add(tmp);
+                        tmp = null;
+                    }
+                }
+                if(tmp==null)
+                    tmp = new ArrayList<>();
+                tmp.add(list.get(i));
+            }
+            if(tmp!=null) {
+                ret.list.add(tmp);
+                tmp = null;
+            }
+        }
+        ret.page = page;
+
+        ret.last = ret.page<=1?ret.page:ret.page-1;
+        ret.next = ret.page>=ret.pageCount?ret.page:ret.page+1;
+        
+        return  ret;
+    }
+
+    public int getBlogCount() {
+        return blogMetaMapper.count();
+    }
+
+    public int getBlogPageCount() {
+        int count = getBlogCount();
+        count = count/blogCfg.blogListPageSize + (count%blogCfg.blogListPageSize==0?0:1);
+        return count;
+    }
+}

@@ -1,13 +1,11 @@
 package zb.blog.model;
 
 /**
- * Created by zhmt on 2017/5/26.
+ * Created by zhmt on 2017/5/31.
  */
 public class BlogContent {
-    public String uid;
+    public String uid;  //blogid
     public Long dt;
     public Long updatedt;
-    //当前保存了几条评论
-    public Integer commentCount;
     public String content;
 }

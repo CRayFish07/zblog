@@ -1,4 +1,4 @@
-package zb.blog;
+package zb.blog.util;
 
 /**
  * Created by zhmt on 2017/2/24.

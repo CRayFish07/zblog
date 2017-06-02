@@ -1,9 +1,12 @@
 package zb.blog.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import zb.blog.dao.DatabaseInitor;
 
+import javax.annotation.PostConstruct;
 import java.sql.SQLSyntaxErrorException;
 
 /**
@@ -11,9 +14,12 @@ import java.sql.SQLSyntaxErrorException;
  */
 @Service
 public class DbInitService {
+    protected static final Logger log = LogManager.getRootLogger();
+    
     @Autowired
     private DatabaseInitor databaseInitor;
 
+    @PostConstruct
     public void init() {
         databaseInitor.setDefaultTableType();
 
@@ -24,6 +30,8 @@ public class DbInitService {
 
         databaseInitor.createTableComment();
         filterIndexExistException(()->databaseInitor.createTableCommentIndexUidSeq());
+
+        log.info("......DATABASE inited......");
     }
 
      private void filterIndexExistException(Runnable r) {

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" >
         <link rel="stylesheet" href="http://127.0.0.1:8080/css/blog.css">
-    <title>主页 - ZBLOG</title>
+    <title>博客列表 - ZBLOG</title>
 
 </head>
 <body>
@@ -37,18 +37,29 @@
         </ul>
     </div>
 </nav>
-<div class="container">
+<div id="listContent" class="container">
 
-    <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1 class="display-3">Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
-    </div>
-
+    
+  
 </div> <!-- /container -->
 
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-bottom bg-inverse">
+
+
+<div  id="msgtipModal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="msgtipModalTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="msgtipModalContent" class="modal-body">
+                ...
+            </div>
+                    </div>
+    </div>
+</div><nav class="navbar navbar-toggleable-md navbar-inverse fixed-bottom bg-inverse">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -79,6 +90,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 <script src="http://127.0.0.1:8080/js/var.js"></script>
-<script src="http://127.0.0.1:8080/js/index.js"></script>
+<script src="http://127.0.0.1:8080/js/bloglist.js"></script>
 </body>
 </html>
