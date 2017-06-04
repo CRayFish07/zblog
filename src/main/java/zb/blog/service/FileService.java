@@ -20,6 +20,10 @@ public class FileService {
     public static final File fileRoot = newFile("./blogres/upload");
     public static final String strRoot = fileRoot.getPath();
 
+    static {
+        fileRoot.mkdirs();
+    }
+
     @Autowired
     private BlogCfg blogCfg;
 
