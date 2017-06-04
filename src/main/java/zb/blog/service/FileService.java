@@ -3,6 +3,7 @@ package zb.blog.service;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import zb.blog.BlogCfg;
 import zb.blog.model.FileNode;
 import zb.blog.util.ExceptionUtil;
@@ -16,8 +17,8 @@ import java.util.List;
  */                         
 @Service
 public class FileService {
-    public static final String strRoot = "./blogres/upload";
-    public static final File fileRoot = new File(strRoot);
+    public static final File fileRoot = newFile("./blogres/upload");
+    public static final String strRoot = fileRoot.getPath();
 
     @Autowired
     private BlogCfg blogCfg;
@@ -28,14 +29,14 @@ public class FileService {
      * @return
      */
     public String mkdir(String dir) {
-        File  f = new File(strRoot + dir);
+        File  f = newFile(strRoot + dir);
         checkDirUnderOrIsRoot(f);
         f.mkdirs();
         return getRelativeDir(f);
     }
 
     public String del(String dir) {
-        File f = new File(strRoot+dir);
+        File f = newFile(strRoot+dir);
         checkDirUnderOrIsRoot(f);
 
         //禁止删除根目录
@@ -51,8 +52,15 @@ public class FileService {
         return getRelativeDir(f.getParentFile());
     }
 
+    public void save(MultipartFile file, String dir) {
+        File destFile = newFile(strRoot+dir+file.getOriginalFilename());
+        checkDirUnderOrIsRoot(destFile);
+        System.out.println(destFile);
+        ExceptionUtil.castException(()->file.transferTo(destFile));
+    }
+
     public List<FileNode> listDir (String dir) {
-        File f = new File(strRoot+dir);
+        File f = newFile(strRoot+dir);
         checkDirUnderOrIsRoot(f);
         List<FileNode> ret = new LinkedList<>();
         for(File one : f.listFiles()) {
@@ -62,18 +70,20 @@ public class FileService {
         return ret;
     }
 
+    private static File newFile(String file) {
+        return  ExceptionUtil.castException(()->{return new File(file).getCanonicalFile();});
+    }
+
     private String getRelativeDir(File f) {
         return getPath(f).replace(getPath(fileRoot),"");
     }
 
     private String getPath(File f) {
-         return ExceptionUtil.castException(()->{return f.getCanonicalPath().replaceAll("\\\\","/");});
+         return f.getPath().replaceAll("\\\\","/");
     }
 
     private String getParentPath(File f) {
-        return ExceptionUtil.castException(()->{
-            return f.getCanonicalFile().getParent().replaceAll("\\\\","/");
-        });
+        return f.getParent().replaceAll("\\\\","/");
     }
 
     private void checkDirUnderOrIsRoot(File f) {
@@ -94,6 +104,6 @@ public class FileService {
     }
 
     public static void main(String[] args) {
-        //System.out.println("\\".replaceAll("\\\\","/"));
+        System.out.println(strRoot);
     }
 }

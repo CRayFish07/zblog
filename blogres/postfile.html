@@ -45,12 +45,17 @@
 </nav><span class="glyphicon glyphicon-search"></span>
 <div class="container">
     <div class="postFileButtons btn-group-vertical">
+
         <input id="buttonPostFile" type="button" class=" btn btn-primary" value="上传文件">
         <input id="buttonMkdir" style="margin-top: 0.3rem" type="button" class=" btn btn-secondary" value="创建目录">
         <input id="buttonDelete" style="margin-top: 0.3rem" type="button" class=" btn btn-danger" value="删除">
     </div>
     <!-- Main component for a primary marketing message or call to action -->
-    <div class="postFileTree" id="treeContainer"></div>
+
+    <div class="postFileTree" >
+        所选文件引用地址 : <b><span id="spanCurDir"></span></b> <br> <br>
+        <div id="treeContainer"></div>
+    </div>
 
 </div> <!-- /container -->
 

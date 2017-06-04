@@ -1,6 +1,3 @@
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
 
 function loadBlog() {
     var blogId = $.urlParam('uid');
@@ -26,7 +23,8 @@ function loadBlog() {
     }).done(function(data, textStatus, jqXHR) {
         var json = $.parseJSON(jqXHR.responseText);
         var html = json.content;
-        //html = replaceAll(html,"\n","\n\n");
+        //把文件引用换成真实链接
+        html = prepareMarkdownText(html);
         html = marked(html);
         $("#blogContent").html(html);
     }).fail(function(jqXHR, textStatus, errorThrown) {

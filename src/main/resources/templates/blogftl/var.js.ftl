@@ -2,6 +2,7 @@ var dataServerIp = "${cfg.dataServerIp}";
 var dataServerPort = ${cfg.dataServerPort?c};
 
 var dataRootUrl = "${cfg.rootUrl}";
+var uploadRootUrl = "${cfg.rootUrl}"+"/upload";
 var strPleaseDragUploadingFilesHere = "${cfg.strPleaseDragUploadingFilesHere}";
 
 function showMsgTip(title,msg) {
@@ -34,6 +35,15 @@ $.isBlank = function(str) {
     if($.trim(str).length<=0)
         return true;
     return false
+}
+
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function prepareMarkdownText(str) {
+    return replaceAll(str,"blogfile://",uploadRootUrl);
 }
 
 function setMarked() {

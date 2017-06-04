@@ -2,6 +2,7 @@ var dataServerIp = "127.0.0.1";
 var dataServerPort = 8080;
 
 var dataRootUrl = "http://127.0.0.1:8080";
+var uploadRootUrl = "http://127.0.0.1:8080"+"/upload";
 var strPleaseDragUploadingFilesHere = "把要上传的文件拖到这里";
 
 function showMsgTip(title,msg) {
@@ -34,6 +35,15 @@ $.isBlank = function(str) {
     if($.trim(str).length<=0)
         return true;
     return false
+}
+
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function prepareMarkdownText(str) {
+    return replaceAll(str,"blogfile://",uploadRootUrl);
 }
 
 function setMarked() {

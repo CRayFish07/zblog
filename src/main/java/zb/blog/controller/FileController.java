@@ -58,7 +58,8 @@ public class FileController {
 
     @PostMapping("/file")
     public void postFile(@RequestParam("file")MultipartFile file,String dir) {
-       System.out.println(file.getOriginalFilename());
-       System.out.println(dir);
+//       System.out.println(file.getOriginalFilename());
+//       System.out.println(dir);
+        fileService.save(file,dir);
     }
 }

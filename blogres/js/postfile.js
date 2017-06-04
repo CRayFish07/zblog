@@ -83,6 +83,15 @@ function showMkdirModal() {
     $("#mkdirModal").modal();
 }
 
+function setSpanCurDir() {
+    var selectedArr = $('#treeContainer').jstree(true).get_selected(true);
+    var dir = "/";
+    if(!$.isNullOrUndefined(selectedArr) && selectedArr.length>0) {
+        dir = "blogfile://"+selectedArr[0].id
+    }
+    $("#spanCurDir").text(dir);
+}
+
 function initEventHandlers() {
     $("#buttonPostFile").click(function (event) {
         showPostFileModal();
@@ -114,6 +123,9 @@ function initFileTree() {
                 }
             }
         }
+    });
+    $('#treeContainer').on("changed.jstree", function (e, data) {
+        setSpanCurDir();
     });
 }
 

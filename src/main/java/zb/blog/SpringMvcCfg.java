@@ -1,11 +1,17 @@
 package zb.blog;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import zb.blog.util.ExceptionUtil;
+
+import javax.servlet.MultipartConfigElement;
+import java.io.File;
 
 /**
  * Created by zhmt on 2017/5/30.
@@ -27,5 +33,31 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .allowedOrigins("*");
+    }
+
+    
+
+//    @Bean
+//    public MultipartConfigElement multipartConfigElement() {
+//        MultiPartConfigFactory factory = new MultiPartConfigFactory();
+//        factory.setMaxFileSize("128KB");
+//        factory.setMaxRequestSize("128KB");
+//        return factory.createMultipartConfig();
+//    }
+
+
+    static String uploadTmpDir;
+    static {
+        uploadTmpDir = ExceptionUtil.castException(()->{return new File("./blogres/tmp").getCanonicalPath();});
+        new File(uploadTmpDir).mkdirs();
+    }
+
+    @Bean
+    MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setLocation(uploadTmpDir);
+        factory.setMaxFileSize("1024MB");
+        factory.setMaxRequestSize("1024MB");
+        return factory.createMultipartConfig();
     }
 }

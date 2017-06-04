@@ -58,6 +58,7 @@ public class BlogCfg {
     public String strPostFileToDirectory="上传到目录";
     public String strFinishPostFile = "上传完成";
     public String strPleaseDragUploadingFilesHere = "把要上传的文件拖到这里";
+    public String strRefUrl ="所选文件引用地址";
 
 
     public String getBlogName() {
@@ -234,5 +235,9 @@ public class BlogCfg {
 
     public String getStrPleaseDragUploadingFilesHere() {
         return strPleaseDragUploadingFilesHere;
+    }
+
+    public String getStrRefUrl() {
+        return strRefUrl;
     }
 }

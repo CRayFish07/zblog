@@ -15,12 +15,17 @@
 <span class="glyphicon glyphicon-search"></span>
 <div class="container">
     <div class="postFileButtons btn-group-vertical">
+
         <input id="buttonPostFile" type="button" class=" btn btn-primary" value="${cfg.strPostFile}">
         <input id="buttonMkdir" style="margin-top: 0.3rem" type="button" class=" btn btn-secondary" value="${cfg.strMkdir}">
         <input id="buttonDelete" style="margin-top: 0.3rem" type="button" class=" btn btn-danger" value="${cfg.strDelete}">
     </div>
     <!-- Main component for a primary marketing message or call to action -->
-    <div class="postFileTree" id="treeContainer"></div>
+
+    <div class="postFileTree" >
+        ${cfg.strRefUrl} : <b><span id="spanCurDir"></span></b> <br> <br>
+        <div id="treeContainer"></div>
+    </div>
 
 </div> <!-- /container -->
 
