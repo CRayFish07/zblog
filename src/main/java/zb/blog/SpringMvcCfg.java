@@ -1,5 +1,6 @@
 package zb.blog;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import zb.blog.service.FileService;
 import zb.blog.util.ExceptionUtil;
 
 import javax.servlet.MultipartConfigElement;
@@ -60,4 +62,18 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
         factory.setMaxRequestSize("1024MB");
         return factory.createMultipartConfig();
     }
+
+    
+//    @Bean
+//    public DataSource dataSource() {
+//        DataSource dataSource = new DataSource();
+//
+//        String fileDir = FileService.newFile("blogdb/blogdb").getPath();
+//        dataSource.setUrl("jdbc:hsqldb:file:"+fileDir);
+//        dataSource.setUsername("SA");
+//        dataSource.setPassword("");
+//        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+//
+//        return dataSource;
+//    }
 }

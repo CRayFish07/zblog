@@ -74,7 +74,7 @@ public class FileService {
         return ret;
     }
 
-    private static File newFile(String file) {
+    public static File newFile(String file) {
         return  ExceptionUtil.castException(()->{return new File(file).getCanonicalFile();});
     }
 

@@ -1,5 +1,6 @@
 
 <#-- 博客列表和分页导航 -->
+<#if blogPage.list??>
 <#list blogPage.list as row>
 <div class="row">
     <#list row as blogMeta>
@@ -17,6 +18,7 @@
     </#list>
 </div>
 </#list>
+</#if>
 
 
 

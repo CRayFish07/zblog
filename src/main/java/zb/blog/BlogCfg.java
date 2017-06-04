@@ -1,14 +1,33 @@
 package zb.blog;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import zb.blog.service.FileService;
+import zb.blog.util.ExceptionUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by zhmt on 2017/5/30.
  */
+//@Component("BlogCfgFactory")
 @Component
 public class BlogCfg {
+    protected static final Logger log = LogManager.getRootLogger();
+    private static final File cfgFile = FileService.newFile("blogCfg.txt");
+
+   // @Bean
+    public BlogCfg blogCfg() {
+        ObjectMapper m = new ObjectMapper();
+        log.info("BLOG CFG LOADED......");
+        return ExceptionUtil.castException(()->{return m.readValue(cfgFile,BlogCfg.class);});
+    }
+
     public String blogName  = "ZBLOG";
     public String lang = "cmn"; //en
     public String dataServerIp = "127.0.0.1";
@@ -239,5 +258,13 @@ public class BlogCfg {
 
     public String getStrRefUrl() {
         return strRefUrl;
+    }
+
+    public static void main(String[] args) throws IOException {
+//        BlogCfg cfg = new BlogCfg();
+//        ObjectMapper m = new ObjectMapper();
+//
+//        m.writerWithDefaultPrettyPrinter().writeValue(cfgFile,cfg);
+        //System.out.println(new BlogCfg().blogCfg().blogName);
     }
 }
