@@ -12,6 +12,7 @@ function loadBlog() {
         $("#blogAuthor").html(json.author);
         $("#blogDt").html(json.dtStr);
         $("#editBlog").attr("href","postblog.html?uid="+json.uid)
+        $("#textBlogId").val(json.uid);
         document.title = document.title +" " + json.title;
     }).fail(function(jqXHR, textStatus, errorThrown) {
         var json = $.parseJSON(jqXHR.responseText);
@@ -33,5 +34,34 @@ function loadBlog() {
     })
 }
 
+/**
+ * 设置home或about页
+ * @param url
+ */
+function setHomeabout(url) {
+    var blogUid = $("#textBlogId").val();
+    if($.isBlank(blogUid))
+        return;
+    
+    var jqxhr = $.post(dataRootUrl+url , {
+        blogUid: blogUid
+    }).done(function(data, textStatus, jqXHR) {
+        showMsgTip("OK", "OK!!" );
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        var json = $.parseJSON(jqXHR.responseText);
+        showMsgTip( "ERR: " + textStatus, json.message );
+    })
+}
+
+function initButtonHandlers() {
+    $("#buttonSetHome").click(function (e) {
+        setHomeabout("/setting/home");
+    });
+    $("#buttonSetAbout").click(function (e) {
+        setHomeabout("/setting/about");
+    });
+}
+
 setMarked();
 loadBlog();
+initButtonHandlers();

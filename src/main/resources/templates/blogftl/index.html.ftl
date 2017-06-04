@@ -3,7 +3,7 @@
 <head>
     <#include "comm/common.header.ftl">
 
-    <title>主页 - ${cfg.blogName}</title>
+    <title>${cfg.strHome} - ${cfg.blogName}</title>
 
 </head>
 <body>
@@ -13,16 +13,26 @@
 <div class="container">
 
     <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1 class="display-3">Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+    <div class="list-group">
+        <div class="list-group-item list-group-item-info">
+            <div>
+                <h1 id="blogTitle"></h1>
+                by:&nbsp;<span id="blogAuthor"></span> <br>
+                <small><em id="blogDt"></em></small>
+            </div>
+        </div>
+        <div  class="list-group-item">
+            <div id="blogContent">
+            </div>
+        </div>
     </div>
 
 </div> <!-- /container -->
 
 <#include "comm/navbar.bottom.html.ftl">
+<#include "comm/msgtip.html.ftl">
 <#include "comm/common.js.ftl">
+<script src="${cfg.rootUrl}/js/marked.min.js"></script>
 <script src="${cfg.rootUrl}/js/index.js"></script>
 </body>
 </html>

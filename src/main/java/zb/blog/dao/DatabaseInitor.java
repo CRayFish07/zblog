@@ -37,5 +37,8 @@ public interface DatabaseInitor {
     void createTableComment();
 
     @Update("CREATE INDEX comment_uid_dt ON blog_comment(uid,dt)")
-    void createTableCommentIndexUidSeq() ;
+    void createTableCommentIndexUidSeq();
+
+    @Update("CREATE TABLE IF NOT EXISTS blog_homeabout (uid VARCHAR(36) PRIMARY KEY , content VARCHAR(36))")
+    void createTableHomeAndAbout();
 }

@@ -31,6 +31,8 @@ public class DbInitService {
         databaseInitor.createTableComment();
         filterIndexExistException(()->databaseInitor.createTableCommentIndexUidSeq());
 
+        databaseInitor.createTableHomeAndAbout();
+
         log.info("......DATABASE inited......");
     }
 

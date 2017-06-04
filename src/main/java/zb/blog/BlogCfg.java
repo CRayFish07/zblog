@@ -15,25 +15,36 @@ import java.io.IOException;
 /**
  * Created by zhmt on 2017/5/30.
  */
-//@Component("BlogCfgFactory")
-@Component
+
 public class BlogCfg {
     protected static final Logger log = LogManager.getRootLogger();
     private static final File cfgFile = FileService.newFile("blogCfg.txt");
 
-   // @Bean
-    public BlogCfg blogCfg() {
-        ObjectMapper m = new ObjectMapper();
-        log.info("BLOG CFG LOADED......");
-        return ExceptionUtil.castException(()->{return m.readValue(cfgFile,BlogCfg.class);});
+    @Component
+    public static class BlogCfgLoader {
+        protected static final Logger log = LogManager.getLogger(BlogCfgLoader.class);
+
+        @Bean
+        public BlogCfg blogCfg() {
+            ObjectMapper m = new ObjectMapper();
+
+            BlogCfg ret = ExceptionUtil.castException(()->{return m.readValue(cfgFile,BlogCfg.class);});
+            log.info("BLOG CFG LOADED......"+ret.blogName);
+            return  ret;
+        }
     }
+
+
 
     public String blogName  = "ZBLOG";
     public String lang = "cmn"; //en
     public String dataServerIp = "127.0.0.1";
     public int dataServerPort = 8080;
     public String pwd = "admin" ;
-    public int blogListPageSize = 4;
+    public int blogListPageSize = 20;
+
+    public String strHome = "主页";
+    public String strAbout = "关于";
 
 
     public String strPostBlog = "发表文章";
@@ -52,12 +63,12 @@ public class BlogCfg {
     public String strContentPlaceholder = "在此输入正文";
     public String strContentLimit = "正文不能为空,最多%d个字母";
 
-    public String strBlogList = "博客列表";
+    public String strBlogList = "文章列表";
     public String strNextPage = "下一页";
     public String strLastPage = "上一页";
     public String strTotalPageCount = "总页数";
 
-    public String strBlogDetail = "博文详情";
+    public String strBlogDetail = "文章详情";
     public String strSetAsHome    ="设为主页";
     public String strSetAsAbout     ="设为关于页";
     public String strEdit       ="编辑";
@@ -102,6 +113,14 @@ public class BlogCfg {
 
     public String getPwd() {
         return pwd;
+    }
+
+    public String getStrHome() {
+        return strHome;
+    }
+
+    public String getStrAbout() {
+        return strAbout;
     }
 
     public String getStrTitle() {
@@ -261,10 +280,9 @@ public class BlogCfg {
     }
 
     public static void main(String[] args) throws IOException {
-//        BlogCfg cfg = new BlogCfg();
-//        ObjectMapper m = new ObjectMapper();
-//
-//        m.writerWithDefaultPrettyPrinter().writeValue(cfgFile,cfg);
+        BlogCfg cfg = new BlogCfg();
+        ObjectMapper m = new ObjectMapper();
+        m.writerWithDefaultPrettyPrinter().writeValue(cfgFile,cfg);
         //System.out.println(new BlogCfg().blogCfg().blogName);
     }
 }

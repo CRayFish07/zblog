@@ -74,7 +74,7 @@ public class HtmlGen {
     private void genOne(Ftl ftl) throws Exception{
         Template template = freeMarkerConfiguration.getTemplate("blogftl/"+ftl.fileName);
         HashMap<String,Object> model = new HashMap<>();
-        model.put("cfg",new BlogCfg());
+        model.put("cfg",blogCfg);
 
         String fName = getDestFileName(ftl);
         log.info("Creating static file : \t"+fName);

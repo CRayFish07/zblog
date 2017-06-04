@@ -8,21 +8,21 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li id="navHome" class="nav-item">
-                <a class="nav-link" href="index.html">主页 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">${cfg.strHome} <span class="sr-only">(current)</span></a>
             </li>
             <li id="navBlogList" class="nav-item">
-                <a class="nav-link" href="bloglist.html">博客 </a>
+                <a class="nav-link" href="bloglist.html">${cfg.strBlogList} </a>
             </li>
             <li id="navAbout" class="nav-item">
-                <a class="nav-link" href="about.html">关于</a>
+                <a class="nav-link" href="about.html">${cfg.strAbout}</a>
             </li>
         </ul>
         <ul class="navbar-nav">
             <li id="navPostBlog" class="nav-item" >
-                <a class="nav-link" href="postblog.html">发表文章</a>
+                <a class="nav-link" href="postblog.html">${cfg.strPostBlog}</a>
             </li>
             <li id="navPostFile" class="nav-item" >
-                <a class="nav-link" target="_blank" href="postfile.html">上传文件</a>
+                <a class="nav-link" target="_blank" href="postfile.html">${cfg.strPostFile}</a>
             </li>
         </ul>
     </div>

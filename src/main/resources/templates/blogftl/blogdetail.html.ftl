@@ -23,8 +23,9 @@
         <div  class="list-group-item">
             <div >
                 <a class="btn btn-warning" role="button" id="editBlog" href="#">${cfg.strEdit}</a>
-                <a class="btn btn-secondary" role="button" href="#">${cfg.strSetAsHome}</a>
-                <a class="btn btn-secondary" role="button" href="#">${cfg.strSetAsAbout}</a>
+                <input id="buttonSetHome" class="btn btn-secondary" type="button" value="${cfg.strSetAsHome}">
+                <input id="buttonSetAbout" class="btn btn-secondary" type="button" value="${cfg.strSetAsAbout}">
+                <input id="textBlogId" type="text" hidden>
             </div>
         </div>
         <div  class="list-group-item">
@@ -37,6 +38,7 @@
 </div> <!-- /container -->
 
 <#include "comm/navbar.bottom.html.ftl">
+<#include "comm/msgtip.html.ftl">
 <#include "comm/common.js.ftl">
 <script src="${cfg.rootUrl}/js/marked.min.js"></script>
 <script src="${cfg.rootUrl}/js/blogdetail.js"></script>

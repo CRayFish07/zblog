@@ -23,5 +23,5 @@ public interface BlogCommentMapper {
 
     //统计一篇博客有几页评论
     @Select("SELECT COUNT(uid,dt) FROM blog_comment ")
-    public int countForOneBlog(String uid) ;
+    public int countForOneBlog() ;
 }
