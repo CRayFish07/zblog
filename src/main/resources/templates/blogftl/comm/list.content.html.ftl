@@ -1,13 +1,16 @@
 
+<#-- 博客列表和分页导航 -->
 <#list blogPage.list as row>
 <div class="row">
     <#list row as blogMeta>
     <div class="blogmetaList col-md-6">
         <ul class="list-group ">
-            <li class="list-group-item list-group-item-success"><a href="#">${blogMeta.title}</a></li>
-            <li class="list-group-item list-group-item-info justify-content-between">
-                <small>by ${blogMeta.author}</small>
-                <small>${blogMeta.dtStr}</small>
+            <li class="list-group-item list-group-item-info">
+                <div>
+                    <a href="blogdetail.html?uid=${blogMeta.uid}">${blogMeta.title}</a> <br>
+                    <small>by ${blogMeta.author}</small><br>
+                    <small>${blogMeta.dtStr}</small>
+                </div>
             </li>
         </ul>
     </div>

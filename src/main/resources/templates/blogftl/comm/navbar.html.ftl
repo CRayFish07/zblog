@@ -21,6 +21,9 @@
             <li id="navPostBlog" class="nav-item" >
                 <a class="nav-link" href="postblog.html">发表文章</a>
             </li>
+            <li id="navPostFile" class="nav-item" >
+                <a class="nav-link" target="_blank" href="postfile.html">上传文件</a>
+            </li>
         </ul>
     </div>
 </nav>

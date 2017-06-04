@@ -12,3 +12,16 @@ body {
     padding: 0.3rem;
 }
 
+.postFileButtons{
+    margin-top: 4.5rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    /*left: 0;*/
+    z-index: 1030;
+    padding: 0.3rem;
+}
+.postFileTree{
+    margin-top: 9rem;
+}
+

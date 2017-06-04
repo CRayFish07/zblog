@@ -54,7 +54,7 @@ public class BlogController {
    
 
     /**
-     * 发布博客
+     * 发表博文
      * @param title
      * @param author
      * @param password
@@ -62,7 +62,8 @@ public class BlogController {
      * @return
      */
     @PostMapping("/blog")
-    public String postBlog(String title,String author,String password,String content) {
+    public String postBlog(String uid,String title,String author,String password,String content) {
+        
         if(StringUtils.isBlank(title) || title.length()>blogCfg.maxTitleLen) {
             throw new RuntimeException( blogCfg.getStrTitleLimit());
         }
@@ -76,8 +77,10 @@ public class BlogController {
             throw new RuntimeException( blogCfg.getStrContentLimit());
         }
 
-        blogService.postBlog(title,author,password,content);
-        return "OK";
+        if(StringUtils.isBlank(uid))
+            return blogService.postBlog(title,author,content);
+        else
+            return blogService.putBlog(uid,title,author,content);
     }
 
     @ExceptionHandler(RuntimeException.class)
@@ -96,8 +99,8 @@ public class BlogController {
     }
 
     @GetMapping("/blog/meta")
-    public String getBlogMeta(String uid) {
-        return UUID.randomUUID().toString();
+    public BlogMeta getBlogMeta(String uid) {
+        return blogService.getBlogMeta(uid);
     }
 
     @PutMapping("/blog/content")
@@ -106,8 +109,8 @@ public class BlogController {
     }
     
     @GetMapping("/blog/content")
-    public String getBlogContent(String uid) {
-        return UUID.randomUUID().toString();
+    public BlogContent getBlogContent(String uid) {
+        return blogService.getBlogContent(uid);
     }
 
     @PostMapping("/blog/comment")

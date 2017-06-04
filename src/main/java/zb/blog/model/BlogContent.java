@@ -8,4 +8,20 @@ public class BlogContent {
     public Long dt;
     public Long updatedt;
     public String content;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public Long getDt() {
+        return dt;
+    }
+
+    public Long getUpdatedt() {
+        return updatedt;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }

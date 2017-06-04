@@ -14,7 +14,7 @@ public interface BlogMetaMapper {
     @Update("INSERT INTO blog_meta (uid,dt,updatedt,author,title) VALUES(#{uid},#{dt},#{updatedt},#{author},#{title})")
     public void post(BlogMeta meta);
 
-    @Update("UPDATE blog_meta SET dt=#{dt},updatedt=#{updatedt},author=#{author},title=#{title} WHERE uid=#{uid}")
+    @Update("UPDATE blog_meta SET updatedt=#{updatedt},author=#{author},title=#{title} WHERE uid=#{uid}")
     public int put(BlogMeta meta);
 
     @Update("DELETE FROM blog_meta WHERE uid=#{uid}")

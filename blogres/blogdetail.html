@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="http://127.0.0.1:8080/css/bootstrap.min.css" >
     <link rel="stylesheet" href="http://127.0.0.1:8080/css/blog.css">
-    <title>发表文章 - ZBLOG</title>
+    <title>博文详情 - </title>
 
 </head>
 <body>
@@ -41,51 +41,32 @@
     </div>
 </nav>
 <div class="container">
-    <h1 class="text-center">发表文章</h1>
-    <form id="postBlogForm" class="form-horizontal">
-        <div class="form-group row">
-            <label for="title" class="offset-sm-1 col-sm-1 col-form-label">标题</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="title" placeholder="标题不能为空,最多128个汉字或字母">
+
+    <div class="list-group">
+        <div class="list-group-item list-group-item-info">
+            <div>
+                <h1 id="blogTitle"></h1>
+                by:&nbsp;<span id="blogAuthor"></span> <br>
+                <small><em id="blogDt"></em></small>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="author" class="offset-sm-1 col-sm-1 col-form-label">作者</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="author" placeholder="作者不能为空,最多64个汉字或字母">
+        <div  class="list-group-item">
+            <div >
+                <a class="btn btn-warning" role="button" id="editBlog" href="#">编辑</a>
+                <a class="btn btn-secondary" role="button" href="#">设为主页</a>
+                <a class="btn btn-secondary" role="button" href="#">设为关于页</a>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="content" class="offset-sm-1 col-sm-1 col-form-label">正文</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="content" rows="20" placeholder="正文不能为空,最多10240个字母"></textarea>
+        <div  class="list-group-item">
+            <div id="blogContent">
             </div>
         </div>
-        <div class="form-group row">
-            <div class="offset-sm-2 col-sm-10">
-                <button id="submit" type="submit" class="btn btn-primary">发表文章</button>
-            </div>
-        </div>
-    </form>
+
+    </div>
+
 </div> <!-- /container -->
 
-
-
-<div  id="msgtipModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="msgtipModalTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="msgtipModalContent" class="modal-body">
-                ...
-            </div>
-                    </div>
-    </div>
-</div><!-- Latest compiled and minified JavaScript -->
+<!-- Latest compiled and minified JavaScript -->
 <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
@@ -93,6 +74,7 @@
 <script src="http://127.0.0.1:8080/js/tether.min.js"></script>
 <script src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
 <script src="http://127.0.0.1:8080/js/var.js"></script>
-<script src="http://127.0.0.1:8080/js/postblog.js"></script>
+<script src="http://127.0.0.1:8080/js/marked.min.js"></script>
+<script src="http://127.0.0.1:8080/js/blogdetail.js"></script>
 </body>
 </html>

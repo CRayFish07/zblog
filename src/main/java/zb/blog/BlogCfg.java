@@ -1,5 +1,6 @@
 package zb.blog;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ public class BlogCfg {
     public String dataServerIp = "127.0.0.1";
     public int dataServerPort = 8080;
     public String pwd = "admin" ;
-    public int blogListPageSize = 2;
+    public int blogListPageSize = 4;
 
 
     public String strPostBlog = "发表文章";
@@ -36,6 +37,27 @@ public class BlogCfg {
     public String strNextPage = "下一页";
     public String strLastPage = "上一页";
     public String strTotalPageCount = "总页数";
+
+    public String strBlogDetail = "博文详情";
+    public String strSetAsHome    ="设为主页";
+    public String strSetAsAbout     ="设为关于页";
+    public String strEdit       ="编辑";
+
+    public String strBlogNotExists = "博文不存在";
+
+    public String strOnlySubdirectoryAllowed = "只能操作子目录";
+    public String strMkdir      = "创建目录";
+    public String strDelete     = "删除";
+    public String strPostFile   = "上传文件";
+    public String strInputDirName="输入目录名称";
+    public String strDirectoryCantBeBlank = "目录不能为空";
+    public String strParentDirectoryCantBeBlank = "父目录不能为空";
+    public String strFailedToDeleteFile = "删除文件失败";
+    public String strClose = "关闭";
+    public String strParentDirectory = "父目录";
+    public String strPostFileToDirectory="上传到目录";
+    public String strFinishPostFile = "上传完成";
+    public String strPleaseDragUploadingFilesHere = "把要上传的文件拖到这里";
 
 
     public String getBlogName() {
@@ -140,5 +162,77 @@ public class BlogCfg {
 
     public String getStrTotalPageCount() {
         return strTotalPageCount;
+    }
+
+    public String getStrBlogDetail() {
+        return strBlogDetail;
+    }
+
+    public String getStrSetAsHome() {
+        return strSetAsHome;
+    }
+
+    public String getStrSetAsAbout() {
+        return strSetAsAbout;
+    }
+
+    public String getStrEdit() {
+        return strEdit;
+    }
+
+    public String getStrBlogNotExists() {
+        return strBlogNotExists;
+    }
+
+    public String getStrOnlySubdirectoryAllowed() {
+        return strOnlySubdirectoryAllowed;
+    }
+
+    public String getStrMkdir() {
+        return strMkdir;
+    }
+
+    public String getStrDelete() {
+        return strDelete;
+    }
+
+    public String getStrPostFile() {
+        return strPostFile;
+    }
+
+    public String getStrInputDirName() {
+        return strInputDirName;
+    }
+
+    public String getStrDirectoryCantBeBlank() {
+        return strDirectoryCantBeBlank;
+    }
+
+    public String getStrParentDirectoryCantBeBlank() {
+        return strParentDirectoryCantBeBlank;
+    }
+
+    public String getStrFailedToDeleteFile() {
+        return strFailedToDeleteFile;
+    }
+
+    public String getStrClose() {
+        return strClose;
+    }
+
+    public String getStrParentDirectory() {
+        return strParentDirectory;
+    }
+
+    public String getStrPostFileToDirectory() {
+        return strPostFileToDirectory;
+    }
+
+    public String getStrFinishPostFile() {
+        return strFinishPostFile;
+    }
+
+    public String getStrPleaseDragUploadingFilesHere() {
+        return strPleaseDragUploadingFilesHere;
     }
 }

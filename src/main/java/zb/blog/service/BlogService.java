@@ -2,6 +2,7 @@ package zb.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import zb.blog.BlogCfg;
 import zb.blog.dao.BlogContentMapper;
 import zb.blog.dao.BlogMetaMapper;
@@ -28,7 +29,8 @@ public class BlogService {
     private BlogCfg blogCfg;
 
     //新建博文无需排队
-    public void postBlog(String title, String author, String password, String content) {
+    @Transactional
+    public String postBlog(String title, String author, String content) {
         long timenow = System.currentTimeMillis();
         BlogMeta meta = new BlogMeta();
         meta.title = title;
@@ -43,6 +45,7 @@ public class BlogService {
         blogContent.uid = meta.uid;
         blogMetaMapper.post(meta);
         blogContentMapper.post(blogContent);
+        return meta.uid;
     }
 
     //获取列表，无需排队 1-xxx
@@ -95,5 +98,30 @@ public class BlogService {
         int count = getBlogCount();
         count = count/blogCfg.blogListPageSize + (count%blogCfg.blogListPageSize==0?0:1);
         return count;
+    }
+
+    public BlogMeta getBlogMeta(String uid) {
+        return blogMetaMapper.get(uid);
+    }
+
+    public BlogContent getBlogContent(String uid) {
+        return blogContentMapper.get(uid);
+    }
+
+    @Transactional
+    public String putBlog(String uid, String title, String author, String content) {
+        BlogContent blogContent = blogContentMapper.get(uid);
+        BlogMeta meta = blogMetaMapper.get(uid);
+        if(blogContent==null || meta==null)
+            throw new RuntimeException(blogCfg.strBlogNotExists);
+        long timenow = System.currentTimeMillis();
+        meta.updatedt = timenow;
+        meta.title = title;
+        meta.author = author;
+        blogContent.content = content;
+        blogContent.updatedt = timenow;
+        blogMetaMapper.put(meta);
+        blogContentMapper.put(blogContent);
+        return uid;
     }
 }
