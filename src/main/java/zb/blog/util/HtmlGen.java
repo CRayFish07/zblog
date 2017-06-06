@@ -78,7 +78,7 @@ public class HtmlGen {
 
         String fName = getDestFileName(ftl);
         log.info("Creating static file : \t"+fName);
-        OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(fName));//
+        OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(fName),"utf-8");//
         template.process(model,w);
         w.flush();
         w.close();

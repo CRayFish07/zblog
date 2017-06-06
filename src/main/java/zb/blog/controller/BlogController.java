@@ -16,6 +16,7 @@ import zb.blog.model.BlogComment;
 import zb.blog.model.BlogCommentRow;
 import zb.blog.model.BlogContent;
 import zb.blog.model.BlogMeta;
+import zb.blog.security.LoginRequired;
 import zb.blog.service.BlogService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,7 @@ public class BlogController {
      * @param content
      * @return
      */
+    @LoginRequired 
     @PostMapping("/blog")
     public String postBlog(String uid,String title,String author,String password,String content) {
         

@@ -1,6 +1,8 @@
 package zb.blog;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -16,6 +18,7 @@ import java.io.IOException;
  * Created by zhmt on 2017/5/30.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BlogCfg {
     protected static final Logger log = LogManager.getRootLogger();
     private static final File cfgFile = FileService.newFile("blogCfg.txt");
@@ -28,7 +31,10 @@ public class BlogCfg {
         public BlogCfg blogCfg() {
             ObjectMapper m = new ObjectMapper();
 
-            BlogCfg ret = ExceptionUtil.castException(()->{return m.readValue(cfgFile,BlogCfg.class);});
+            BlogCfg ret = ExceptionUtil.castException(()->{
+                String data = FileUtils.readFileToString(cfgFile,"utf-8");
+                return m.readValue(data,BlogCfg.class);
+            });
             log.info("BLOG CFG LOADED......"+ret.blogName);
             return  ret;
         }
@@ -89,6 +95,10 @@ public class BlogCfg {
     public String strFinishPostFile = "上传完成";
     public String strPleaseDragUploadingFilesHere = "把要上传的文件拖到这里";
     public String strRefUrl ="所选文件引用地址";
+
+    public String strLoginFailed = "FAILED:登录失败!";
+    public String strAccessDenied = "DENIED:没有权限,必须登录";
+    public String strLogin = "登录";
 
 
     public String getBlogName() {
@@ -279,10 +289,22 @@ public class BlogCfg {
         return strRefUrl;
     }
 
+    public String getStrLoginFailed() {
+        return strLoginFailed;
+    }
+
+    public String getStrAccessDenied() {
+        return strAccessDenied;
+    }
+
+    public String getStrLogin() {
+        return strLogin;
+    }
+
     public static void main(String[] args) throws IOException {
         BlogCfg cfg = new BlogCfg();
         ObjectMapper m = new ObjectMapper();
-        m.writerWithDefaultPrettyPrinter().writeValue(cfgFile,cfg);
+        FileUtils.write(cfgFile,m.writerWithDefaultPrettyPrinter().toString(),"utf-8"); ;
         //System.out.println(new BlogCfg().blogCfg().blogName);
     }
 }

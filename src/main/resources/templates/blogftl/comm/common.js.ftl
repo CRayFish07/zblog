@@ -6,3 +6,4 @@
 <script src="${cfg.rootUrl}/js/tether.min.js"></script>
 <script src="${cfg.rootUrl}/js/bootstrap.min.js"></script>
 <script src="${cfg.rootUrl}/js/var.js"></script>
+<script src="${cfg.rootUrl}/js/common.js"></script>

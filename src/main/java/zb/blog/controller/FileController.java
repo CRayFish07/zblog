@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import zb.blog.BlogCfg;
 import zb.blog.model.FileNode;
+import zb.blog.security.LoginRequired;
 import zb.blog.service.FileService;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class FileController {
      * @param dir
      * @return
      */
+    @LoginRequired
     @GetMapping("/file/list")
     public List<FileNode> getFileList(String dir) {
         dir = dir.replaceAll("#","");
@@ -38,6 +40,7 @@ public class FileController {
         return fileService.listDir(dir);
     }
 
+    @LoginRequired
     @PostMapping("/file/delete")
     public String delete(String dir) {
         if(StringUtils.isBlank(dir))
@@ -45,6 +48,7 @@ public class FileController {
         return fileService.del(dir);
     }
 
+    @LoginRequired
     @PostMapping("/file/mkdir")
     public void mkdir(String parentDir,String dir) {
         if(StringUtils.isBlank(parentDir))
@@ -56,6 +60,7 @@ public class FileController {
         return;
     }
 
+    @LoginRequired
     @PostMapping("/file")
     public void postFile(@RequestParam("file")MultipartFile file,String dir) {
 //       System.out.println(file.getOriginalFilename());

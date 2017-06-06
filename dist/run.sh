@@ -1,0 +1,1 @@
+nohup java -cp "lib/*"  zb.blog.BlogApplication 2>&1 1>/dev/null &

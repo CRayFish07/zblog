@@ -31,6 +31,9 @@
             </li>
         </ul>
         <ul class="navbar-nav">
+            <li id="navLogin" class="nav-item" >
+                <a class="nav-link" href="javascript:showLogin()">登录</a>
+            </li>
             <li id="navPostBlog" class="nav-item" >
                 <a class="nav-link" href="postblog.html">发表文章</a>
             </li>
@@ -40,6 +43,33 @@
         </ul>
     </div>
 </nav>
+
+
+<div  id="modalLogin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">登录</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="inputLoginPassword" class=" col-sm-2 col-form-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputLoginPassword" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <input type="button" id="buttonLoginSubmit" class="btn btn-primary" value="登录"></input>
+            </div>
+        </div>
+    </div>
+</div>  <!-- deleteModal -->
 <div class="container">
 
     <div class="list-group">
@@ -91,6 +121,7 @@
 <script src="http://127.0.0.1:8080/js/tether.min.js"></script>
 <script src="http://127.0.0.1:8080/js/bootstrap.min.js"></script>
 <script src="http://127.0.0.1:8080/js/var.js"></script>
+<script src="http://127.0.0.1:8080/js/common.js"></script>
 <script src="http://127.0.0.1:8080/js/marked.min.js"></script>
 <script src="http://127.0.0.1:8080/js/blogdetail.js"></script>
 </body>

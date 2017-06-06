@@ -18,6 +18,9 @@
             </li>
         </ul>
         <ul class="navbar-nav">
+            <li id="navLogin" class="nav-item" >
+                <a class="nav-link" href="javascript:showLogin()">${cfg.strLogin}</a>
+            </li>
             <li id="navPostBlog" class="nav-item" >
                 <a class="nav-link" href="postblog.html">${cfg.strPostBlog}</a>
             </li>
@@ -27,3 +30,5 @@
         </ul>
     </div>
 </nav>
+
+<#include "login.html.ftl">

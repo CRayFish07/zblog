@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import zb.blog.BlogCfg;
+import zb.blog.security.LoginRequired;
 import zb.blog.service.BlogHomeaboutService;
 
 /**
@@ -18,17 +19,19 @@ public class BlogHomeaboutController {
     @Autowired
     private BlogCfg blogCfg;
 
+    @LoginRequired
     @PostMapping("/setting/home")
     public void setHome(String blogUid){
         blogHomeaboutService.setHome(blogUid);
     }
-
+    
     @GetMapping("/setting/home")
     public String getHome() {
         String ret = blogHomeaboutService.getHome();
         return ret==null?"":ret;
     }
 
+    @LoginRequired
     @PostMapping("/setting/about")
     public void setAbout(String blogUid) {
         blogHomeaboutService.setAbout(blogUid);
