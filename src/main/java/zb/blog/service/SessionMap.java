@@ -2,9 +2,9 @@ package zb.blog.service;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by zhmt on 2017/6/6.
@@ -28,14 +28,23 @@ public class SessionMap {
         public long getTtl() {
             return ttl;
         }
+
+        boolean isTimeout(long now) {
+            if(now>ttl+lastUpdate) {
+                return true;
+            }
+            return false;
+        }
     }
     private final ConcurrentHashMap<String,Session> map = new ConcurrentHashMap<>();
     public Session get(String sid) {
+        cleanSession();
+        
         Session ret = map.get(sid);
         if(ret==null)
             return null;
         long now = System.currentTimeMillis();
-        if(now>ret.ttl+ret.lastUpdate) {
+        if(ret.isTimeout(now)) {
             return null;
         }
         ret.lastUpdate = now;
@@ -43,15 +52,37 @@ public class SessionMap {
     }
 
     public Session newSession() {
+        cleanSession();
+        
         Session ret = new Session();
         map.put(ret.sid,ret);
         return ret;
     }
 
     public Session newSession(long ttl) {
+        cleanSession();
+
         Session ret = new Session();
         ret.ttl = ttl;
         map.put(ret.sid,ret);
         return ret;
+    }
+
+    private AtomicLong lastClean = new AtomicLong(System.currentTimeMillis());
+    private void cleanSession() {
+        //30秒清除一次
+        long now = System.currentTimeMillis();
+        if(now-lastClean.get()<30*1000) {
+            return ;
+        }
+        lastClean.set(now);
+        List<String> toClean = new LinkedList<>();
+        map.forEachEntry(1,(Map.Entry<String,Session> e)->{
+            if(e.getValue().isTimeout(now)) {
+                toClean.add(e.getKey());
+            }
+        });
+
+        toClean.forEach((String key)->map.remove(key));
     }
 }
