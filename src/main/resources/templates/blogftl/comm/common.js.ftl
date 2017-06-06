@@ -5,5 +5,6 @@
 <script src="${cfg.rootUrl}/js/jquery-3.2.1.min.js"></script>
 <script src="${cfg.rootUrl}/js/tether.min.js"></script>
 <script src="${cfg.rootUrl}/js/bootstrap.min.js"></script>
+<script src="${cfg.rootUrl}/js/jscookie.js"></script>
 <script src="${cfg.rootUrl}/js/var.js"></script>
 <script src="${cfg.rootUrl}/js/common.js"></script>

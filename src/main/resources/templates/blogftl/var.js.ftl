@@ -5,3 +5,4 @@ var dataRootUrl = "${cfg.rootUrl}";
 var uploadRootUrl = "${cfg.rootUrl}"+"/upload";
 var strPleaseDragUploadingFilesHere = "${cfg.strPleaseDragUploadingFilesHere}";
 
+var fileTreeListUrl = dataRootUrl+"/file/list";

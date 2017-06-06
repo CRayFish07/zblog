@@ -16,7 +16,7 @@ function loadBlogListContent() {
     else
         page = parseInt(page);
     
-    var jqxhr = $.get(dataRootUrl+"/blog/listhtml" , {
+    var jqxhr = myget(dataRootUrl+"/blog/listhtml" , {
         page:      page
     }).done(function(data, textStatus, jqXHR) {
         //showMsgTip("OK", data );

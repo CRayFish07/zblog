@@ -32,12 +32,17 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("forward:/index.html");
     }
 
+    /**
+     * 支持跨域访问,支持跨域带cookie
+     * @param registry
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedHeaders("*")
                 .allowedMethods("*")
-                .allowedOrigins("*");
+                .allowedOrigins("*")
+                .allowCredentials(true);
     }
 
     @Autowired

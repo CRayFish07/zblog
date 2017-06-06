@@ -1,5 +1,6 @@
 package zb.blog.security;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import zb.blog.BlogCfg;
 import zb.blog.controller.BlogController;
+import zb.blog.service.SessionMap;
 import zb.blog.util.ReflectionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +32,9 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private BlogCfg blogCfg;
+
+    @Autowired
+    private SessionMap sessionMap;
 
     public  ControllerInterceptor() {
         List<Class<?>> classList = ReflectionUtil.getClassHasAnnotation(BlogController.class.getPackage().getName(),RestController.class);
@@ -99,7 +104,9 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
         for(Condition cond:conditions) {
             if(cond.match(request)) {
                 //System.out.println("match \t " + request.getRequestURI());
-                if(request.getSession().getAttribute("login")==null) {
+                //if(request.getSession().getAttribute("login")==null) {
+                String sid = request.getParameter("sid");
+                if(StringUtils.isBlank(sid) || sessionMap.get(sid)==null) {
                     throw new RuntimeException(blogCfg.strAccessDenied);
                 }
             }

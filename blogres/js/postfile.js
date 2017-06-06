@@ -39,7 +39,7 @@ function postDeleteDir() {
     var dir = $("#spanDeleteDir").text();
 
     $("#buttonDeleteSubmit").prop("disabled",true)
-    var jqxhr = $.post(dataRootUrl+"/file/delete" , {
+    var jqxhr = mypost(dataRootUrl+"/file/delete" , {
         dir:        dir
     }).done(function(data, textStatus, jqXHR) {
         refreshFileTree()
@@ -56,7 +56,7 @@ function postMkdir() {
     var dir = $("#inputMkdir").val();
 
     $("#buttonMkdirSubmit").prop("disabled",true)
-    var jqxhr = $.post(dataRootUrl+"/file/mkdir" , {
+    var jqxhr = mypost(dataRootUrl+"/file/mkdir" , {
         parentDir:  parentDir,
         dir:        dir
     }).done(function(data, textStatus, jqXHR) {
@@ -117,7 +117,7 @@ function initFileTree() {
     $('#treeContainer').jstree({
         'core' : {
             'data' : {
-                "url" : dataRootUrl+"/file/list",
+                "url" : getFileTreeListUrl(),
                 "data" : function (node) {
                     return { "dir" : node.id };
                 }

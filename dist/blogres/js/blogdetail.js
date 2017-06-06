@@ -4,7 +4,7 @@ function loadBlog() {
     if(blogId==null)
         return;
 
-    $.get(dataRootUrl+"/blog/meta" , {
+    myget(dataRootUrl+"/blog/meta" , {
         uid:      blogId
     }).done(function(data, textStatus, jqXHR) {
         var json = $.parseJSON(jqXHR.responseText);
@@ -19,7 +19,7 @@ function loadBlog() {
         showMsgTip( "ERR: " + textStatus, json.message );
     })
 
-    $.get(dataRootUrl+"/blog/content" , {
+    myget(dataRootUrl+"/blog/content" , {
         uid:      blogId
     }).done(function(data, textStatus, jqXHR) {
         var json = $.parseJSON(jqXHR.responseText);
@@ -43,7 +43,7 @@ function setHomeabout(url) {
     if($.isBlank(blogUid))
         return;
     
-    var jqxhr = $.post(dataRootUrl+url , {
+    var jqxhr = mypost(dataRootUrl+url , {
         blogUid: blogUid
     }).done(function(data, textStatus, jqXHR) {
         showMsgTip("OK", "OK!!" );

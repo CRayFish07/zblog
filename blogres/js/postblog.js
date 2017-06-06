@@ -1,6 +1,6 @@
 function postBlog() {
     $("#submit").prop("disabled",true)
-    var jqxhr = $.post(dataRootUrl+"/blog" , {
+    var jqxhr = mypost(dataRootUrl+"/blog" , {
         title:      $("#title").val(),
         author:     $("#author").val(),
         //password:   $("#password").val(),
@@ -21,7 +21,7 @@ function loadBlog() {
     if(blogId==null)
         return;
 
-    $.get(dataRootUrl+"/blog/meta" , {
+    myget(dataRootUrl+"/blog/meta" , {
         uid:      blogId
     }).done(function(data, textStatus, jqXHR) {
         var json = $.parseJSON(jqXHR.responseText);
@@ -35,7 +35,7 @@ function loadBlog() {
         showMsgTip( "ERR: " + textStatus, json.message );
     })
 
-    $.get(dataRootUrl+"/blog/content" , {
+    myget(dataRootUrl+"/blog/content" , {
         uid:      blogId
     }).done(function(data, textStatus, jqXHR) {
         var json = $.parseJSON(jqXHR.responseText);
