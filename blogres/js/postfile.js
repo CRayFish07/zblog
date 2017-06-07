@@ -3,8 +3,15 @@ function refreshFileTree() {
 }
 
 function initDropzone() {
+
+    
     var myDropzone = new Dropzone("#formPostFile",{
         init: function() {
+            this.on("drop", function(file) {
+                var url = dataRootUrl+"/file";
+                url = addSidForUrl(url);
+                this.options.url = url;
+            });
             this.on("complete", function(file) {
                 refreshFileTree();
             });

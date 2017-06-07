@@ -124,4 +124,8 @@ public class BlogService {
         blogContentMapper.put(blogContent);
         return uid;
     }
+
+    public Long getMetaUpdatedt(String uid) {
+        return blogMetaMapper.getUpdatedt(uid);
+    }
 }

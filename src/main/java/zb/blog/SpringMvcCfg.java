@@ -3,16 +3,22 @@ package zb.blog;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
+import zb.blog.cache.StaticResCache;
 import zb.blog.security.ControllerInterceptor;
+import zb.blog.security.WebFilter;
 import zb.blog.service.FileService;
 import zb.blog.util.ExceptionUtil;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhmt on 2017/5/30.
@@ -73,6 +79,20 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
         factory.setMaxRequestSize("1024MB");
         return factory.createMultipartConfig();
     }
+
+    @Autowired
+    private WebFilter webFilter;
+    @Bean
+    public FilterRegistrationBean getDemoFilter(){
+        FilterRegistrationBean registrationBean=new FilterRegistrationBean();
+        registrationBean.setFilter(webFilter);
+        List<String> urlPatterns=new ArrayList<String>();
+        urlPatterns.add("/*");//拦截路径，可以添加多个
+        registrationBean.setUrlPatterns(urlPatterns);
+        registrationBean.setOrder(1);
+        return registrationBean;
+    }
+    
 
     
 //    @Bean

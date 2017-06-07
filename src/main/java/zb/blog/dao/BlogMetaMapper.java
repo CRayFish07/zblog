@@ -23,6 +23,9 @@ public interface BlogMetaMapper {
     @Select("SELECT * FROM blog_meta WHERE uid=#{uid}")
     public BlogMeta get(String uid);
 
+    @Select("SELECT updatedt FROM blog_meta WHERE uid=#{uid}")
+    public Long getUpdatedt(String uid);
+
     //offset 从 0 开始
     @Select("SELECT * FROM blog_meta ORDER BY updatedt DESC LIMIT #{offset},#{pageSize}")
     public List<BlogMeta> getList(@Param("offset") int offset, @Param("pageSize") int pageSize);
