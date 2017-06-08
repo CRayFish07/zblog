@@ -8,17 +8,14 @@ import zb.blog.model.BlogCommentRow;
  * Created by zhmt on 2017/5/26.
  */
 public interface BlogCommentMapper {
-    @Update("INSERT INTO blog_comment (uid,dt,comment_count,content) VALUES(#{uid},#{dt},#{commentCount},#{content})")
+    @Update("INSERT INTO blog_comment (blog_uid,dt,comment_count,content) VALUES(#{blogUid},#{dt},#{commentCount},#{content})")
     public void post(BlogCommentRow content) ;
 
-    @Update("UPDATE blog_comment SET comment_count=#{commentCount},content=#{content} WHERE uid=#{uid} and dt=#{dt}")
+    @Update("UPDATE blog_comment SET comment_count=#{commentCount},content=#{content} WHERE blog_uid=#{blogUid} and dt=#{dt}")
     public void put(BlogCommentRow content) ;
 
-//    @Update("DELETE FROM blog_comment WHERE uid=#{uid}")
-//    public int delete(String uid);
-
     //page 从0开始
-    @Select("SELECT * FROM blog_comment WHERE uid=#{uid} ORDER BY dt DESC LIMIT #{page},1 ")
+    @Select("SELECT * FROM blog_comment WHERE blog_uid=#{blogUid} ORDER BY dt DESC LIMIT #{page},1 ")
     public BlogCommentRow get(String uid, int page);
 
     //统计一篇博客有几页评论

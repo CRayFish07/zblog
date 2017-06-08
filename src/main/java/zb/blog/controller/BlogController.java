@@ -95,20 +95,20 @@ public class BlogController {
         response.sendError(status.value(),ex==null?"null":ex.getMessage());
     }
 
-    @PutMapping("/blog/meta")
-    public String putBlogMeta(BlogMeta blogMeta) {
-        return UUID.randomUUID().toString();
-    }
+//    @PutMapping("/blog/meta")
+//    public String putBlogMeta(BlogMeta blogMeta) {
+//        return UUID.randomUUID().toString();
+//    }
 
     @GetMapping("/blog/meta")
     public BlogMeta getBlogMeta(String uid) {
         return blogService.getBlogMeta(uid);
     }
 
-    @PutMapping("/blog/content")
-    public String putBlogContent(BlogCommentRow content) {
-        return UUID.randomUUID().toString();
-    }
+//    @PutMapping("/blog/content")
+//    public String putBlogContent(BlogCommentRow content) {
+//        return UUID.randomUUID().toString();
+//    }
     
     @GetMapping("/blog/content")
     public BlogContent getBlogContent(String uid) {
@@ -120,10 +120,10 @@ public class BlogController {
         return UUID.randomUUID().toString();
     }
 
-    @PutMapping("/blog/comment")
-    public String putBlogComment(BlogComment comment) {
-        return UUID.randomUUID().toString();
-    }
+//    @PutMapping("/blog/comment")
+//    public String putBlogComment(BlogComment comment) {
+//        return UUID.randomUUID().toString();
+//    }
 
     @GetMapping("/blog/comment")
     public String getBlogComment(String uid,Integer page) {
