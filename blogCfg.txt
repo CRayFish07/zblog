@@ -21,7 +21,7 @@
   "strContent" : "正文",
   "maxContentLen" : 10240,
   "strContentPlaceholder" : "在此输入正文",
-  "strContentLimit" : "正文不能为空,最多10240个字母",
+  "strContentLimit" : "正文不能为空,最多10240个字母,支持普通文本、markdown格式",
   "strBlogList" : "文章列表",
   "strNextPage" : "下一页",
   "strLastPage" : "上一页",

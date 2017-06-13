@@ -67,7 +67,7 @@ public class BlogCfg {
     public String strContent = "正文";
     public int maxContentLen = 10*1024;
     public String strContentPlaceholder = "在此输入正文";
-    public String strContentLimit = "正文不能为空,最多%d个字母";
+    public String strContentLimit = "正文不能为空,最多%d个字母,支持普通文本、markdown格式";
 
     public String strBlogList = "文章列表";
     public String strNextPage = "下一页";
@@ -99,6 +99,9 @@ public class BlogCfg {
     public String strLoginFailed = "FAILED:登录失败!";
     public String strAccessDenied = "DENIED:没有权限,必须登录";
     public String strLogin = "登录";
+
+    public int maxCommentLen = 1024;
+    public String strCommentLimit = "评论不能为空,最多%d个字母,支持普通文本、markdown格式";
 
 
     public String getBlogName() {
@@ -299,6 +302,15 @@ public class BlogCfg {
 
     public String getStrLogin() {
         return strLogin;
+    }
+
+
+    public int getMaxCommentLen() {
+        return maxCommentLen;
+    }
+
+    public String getStrCommentLimit() {
+        return String.format(strCommentLimit,maxCommentLen);
     }
 
     public static void main(String[] args) throws IOException {

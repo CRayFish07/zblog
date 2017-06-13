@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zb.blog.BlogCfg;
+import zb.blog.dao.BlogCommentMapper;
 import zb.blog.dao.BlogContentMapper;
 import zb.blog.dao.BlogMetaMapper;
+import zb.blog.model.BlogComment;
 import zb.blog.model.BlogContent;
 import zb.blog.model.BlogMeta;
 import zb.blog.model.BlogPage;
+import zb.blog.util.ThreadService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,13 @@ public class BlogService {
     private BlogContentMapper blogContentMapper;
 
     @Autowired
+    private BlogCommentMapper blogCommentMapper;
+
+    @Autowired
     private BlogCfg blogCfg;
+
+    @Autowired
+    private ThreadService threadService;
 
     //新建博文无需排队
     @Transactional
@@ -94,6 +103,10 @@ public class BlogService {
         return blogMetaMapper.count();
     }
 
+    /**
+     * 博客总页数
+     * @return
+     */
     public int getBlogPageCount() {
         int count = getBlogCount();
         count = count/blogCfg.blogListPageSize + (count%blogCfg.blogListPageSize==0?0:1);
@@ -127,5 +140,25 @@ public class BlogService {
 
     public Long getMetaUpdatedt(String uid) {
         return blogMetaMapper.getUpdatedt(uid);
+    }
+
+    /**
+     * 这个方法必须排队，因为评论是并发的。
+     * @param blogUid
+     * @param author
+     * @param comment
+     */
+    public void postComment(String blogUid, String author, String comment,String ip) {
+        threadService.exeAndWait(blogUid,()->{
+            BlogComment blogComment = new BlogComment();
+            blogComment.author = author;
+            blogComment.blogUid = blogUid;
+            blogComment.comment = comment;
+            blogComment.deleted = false;
+            blogComment.dt = System.currentTimeMillis();
+            blogComment.ip = ip;
+            blogComment.rowDt = ;
+            blogComment.updatedt = blogComment.dt;
+        });
     }
 }

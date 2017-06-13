@@ -69,7 +69,7 @@ public class BlogController {
         if(StringUtils.isBlank(title) || title.length()>blogCfg.maxTitleLen) {
             throw new RuntimeException( blogCfg.getStrTitleLimit());
         }
-        if(StringUtils.isBlank(author) || title.length()>blogCfg.maxAuthorLen) {
+        if(StringUtils.isBlank(author) || author.length()>blogCfg.maxAuthorLen) {
             throw new RuntimeException( blogCfg.getStrAuthorLimit());
         }
 //        if(StringUtils.isBlank(password) || title.length()>blogCfg.maxPasswordLen) {
@@ -116,8 +116,17 @@ public class BlogController {
     }
 
     @PostMapping("/blog/comment")
-    public String postBlogComment(BlogComment comment) {
-        return UUID.randomUUID().toString();
+    public void postBlogComment(String blogUid,String author,String comment) {
+        if(StringUtils.isBlank(blogUid)) {
+            throw new RuntimeException("blogUid cant be null.");
+        }
+        if(StringUtils.isBlank(author) || author.length()>blogCfg.maxAuthorLen)  {
+            throw  new RuntimeException(blogCfg.getStrAuthorLimit());
+        }
+        if(StringUtils.isBlank(comment) || author.length()>blogCfg.maxCommentLen)  {
+            throw  new RuntimeException(blogCfg.getStrCommentLimit());
+        }
+        blogService.postComment(blogUid,author,comment);
     }
 
 //    @PutMapping("/blog/comment")

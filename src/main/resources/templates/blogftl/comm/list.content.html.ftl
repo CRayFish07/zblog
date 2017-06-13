@@ -25,7 +25,7 @@
 <div class="row ">
     <div class="blogmetaList col-md-12 justify-content-between">
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-between">
+            <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <a class="page-link" href="bloglist.html?page=${blogPage.last}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
