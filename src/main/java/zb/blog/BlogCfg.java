@@ -316,7 +316,8 @@ public class BlogCfg {
     public static void main(String[] args) throws IOException {
         BlogCfg cfg = new BlogCfg();
         ObjectMapper m = new ObjectMapper();
-        FileUtils.write(cfgFile,m.writerWithDefaultPrettyPrinter().toString(),"utf-8"); ;
+        String str = m.writerWithDefaultPrettyPrinter().writeValueAsString(cfg);
+        FileUtils.write(cfgFile,str,"utf-8"); ;
         //System.out.println(new BlogCfg().blogCfg().blogName);
     }
 }

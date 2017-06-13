@@ -1,5 +1,8 @@
 package zb.blog.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,13 +10,12 @@ import zb.blog.BlogCfg;
 import zb.blog.dao.BlogCommentMapper;
 import zb.blog.dao.BlogContentMapper;
 import zb.blog.dao.BlogMetaMapper;
-import zb.blog.model.BlogComment;
-import zb.blog.model.BlogContent;
-import zb.blog.model.BlogMeta;
-import zb.blog.model.BlogPage;
+import zb.blog.model.*;
+import zb.blog.util.ExceptionUtil;
 import zb.blog.util.ThreadService;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,9 +29,6 @@ public class BlogService {
 
     @Autowired
     private BlogContentMapper blogContentMapper;
-
-    @Autowired
-    private BlogCommentMapper blogCommentMapper;
 
     @Autowired
     private BlogCfg blogCfg;
@@ -142,23 +141,5 @@ public class BlogService {
         return blogMetaMapper.getUpdatedt(uid);
     }
 
-    /**
-     * 这个方法必须排队，因为评论是并发的。
-     * @param blogUid
-     * @param author
-     * @param comment
-     */
-    public void postComment(String blogUid, String author, String comment,String ip) {
-        threadService.exeAndWait(blogUid,()->{
-            BlogComment blogComment = new BlogComment();
-            blogComment.author = author;
-            blogComment.blogUid = blogUid;
-            blogComment.comment = comment;
-            blogComment.deleted = false;
-            blogComment.dt = System.currentTimeMillis();
-            blogComment.ip = ip;
-            blogComment.rowDt = ;
-            blogComment.updatedt = blogComment.dt;
-        });
-    }
+
 }

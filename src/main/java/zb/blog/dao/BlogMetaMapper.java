@@ -11,6 +11,7 @@ import java.util.List;
  * Created by zhmt on 2017/5/26.
  */
 public interface BlogMetaMapper {
+    
     @Update("INSERT INTO blog_meta (uid,dt,updatedt,author,title) VALUES(#{uid},#{dt},#{updatedt},#{author},#{title})")
     public void post(BlogMeta meta);
 

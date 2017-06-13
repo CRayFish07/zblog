@@ -18,6 +18,7 @@ import zb.blog.model.BlogContent;
 import zb.blog.model.BlogMeta;
 import zb.blog.security.LoginRequired;
 import zb.blog.service.BlogService;
+import zb.blog.service.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,8 @@ public class BlogController {
 
     @Autowired
     private BlogService blogService;
+
+    private CommentService commentService;
     
     @Autowired
     private BlogCfg blogCfg;
@@ -116,7 +119,7 @@ public class BlogController {
     }
 
     @PostMapping("/blog/comment")
-    public void postBlogComment(String blogUid,String author,String comment) {
+    public void postBlogComment(String blogUid,String author,String comment,HttpServletRequest request) {
         if(StringUtils.isBlank(blogUid)) {
             throw new RuntimeException("blogUid cant be null.");
         }
@@ -126,7 +129,7 @@ public class BlogController {
         if(StringUtils.isBlank(comment) || author.length()>blogCfg.maxCommentLen)  {
             throw  new RuntimeException(blogCfg.getStrCommentLimit());
         }
-        blogService.postComment(blogUid,author,comment);
+        commentService.postComment(blogUid,author,comment,request.getRemoteHost());
     }
 
 //    @PutMapping("/blog/comment")
