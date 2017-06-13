@@ -51,15 +51,7 @@ public class CommentService {
                 row = newCommentRow(blogUid);
                 isNewRow = true;
             }
-            BlogComment blogComment = new BlogComment();
-            blogComment.author = author;
-            blogComment.blogUid = blogUid;
-            blogComment.comment = comment;
-            blogComment.deleted = false;
-            blogComment.dt = System.currentTimeMillis();
-            blogComment.ip = ip;
-            blogComment.rowDt = row.dt;
-            blogComment.updatedt = blogComment.dt;
+            BlogComment blogComment = newBlogComment(blogUid,author,comment,ip,row);
 
             List<BlogComment> commentList = deserialComment(row);
             commentList.add(blogComment);
@@ -124,6 +116,19 @@ public class CommentService {
         ObjectMapper m = new ObjectMapper();
         String str = ExceptionUtil.castException(()->{return m.writeValueAsString(list);});
         return  str;
+    }
+
+    private BlogComment newBlogComment(String blogUid, String author, String comment,String ip,BlogCommentRow row) {
+        BlogComment blogComment = new BlogComment();
+        blogComment.author = author;
+        blogComment.blogUid = blogUid;
+        blogComment.comment = comment;
+        blogComment.deleted = false;
+        blogComment.dt = System.currentTimeMillis();
+        blogComment.ip = ip;
+        blogComment.rowDt = row.dt;
+        blogComment.updatedt = blogComment.dt;
+        return blogComment;
     }
 
     /**
