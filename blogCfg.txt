@@ -48,7 +48,15 @@
   "strLoginFailed" : "FAILED:登录失败!",
   "strAccessDenied" : "DENIED:没有权限,必须登录",
   "strLogin" : "登录",
+  "strComment" : "评论",
+  "strAllComments" : "所有评论",
+  "strPostComment" : "发表评论",
   "maxCommentLen" : 1024,
   "strCommentLimit" : "评论不能为空,最多1024个字母,支持普通文本、markdown格式",
+  "strCommentor" : "评论人",
+  "strCommentorLimit" : "评论人不能为空,最多64个汉字或字母",
+  "strRobotCheck" : "输入左侧图片中文字",
+  "strChangeRobotCheckImg" : "看不清换一张",
+  "strInvalidRobotCheckCode" : "验证码错误",
   "rootUrl" : "http://127.0.0.1:8080"
 }

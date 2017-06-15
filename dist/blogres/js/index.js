@@ -35,6 +35,7 @@ function loadBlogUid() {
            loadBlog(blogId);
        }
     }).fail(function(jqXHR, textStatus, errorThrown) {
+
         var json = $.parseJSON(jqXHR.responseText);
         showMsgTip( "ERR: " + textStatus, json.message );
     })

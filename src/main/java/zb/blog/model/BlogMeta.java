@@ -35,7 +35,11 @@ public class BlogMeta {
     }
 
     public String getDtStr() {
+        return formatDate(dt);
+    }
+
+    public static String formatDate(long time) {
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return f.format(new Date(dt));
+        return f.format(new Date(time));
     }
 }

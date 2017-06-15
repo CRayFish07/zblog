@@ -29,6 +29,8 @@ public class DbInitService {
         databaseInitor.createTableBlogContent();
 
         databaseInitor.createTableComment();
+        filterIndexExistException(()->databaseInitor.renameCommentUidToBlogUid(),"not found");
+        databaseInitor.dropTableCommentIndexUidSeq();
         filterIndexExistException(()->databaseInitor.createTableCommentIndexUidSeq());
 
         databaseInitor.createTableHomeAndAbout();
@@ -36,12 +38,16 @@ public class DbInitService {
         log.info("......DATABASE inited......");
     }
 
+    private void filterIndexExistException(Runnable r,String str) {
+        try {
+            r.run();
+        } catch (Exception e) {
+            if(!e.getMessage().contains(str))
+                throw  e;
+        }
+    }
+
      private void filterIndexExistException(Runnable r) {
-         try {
-             r.run();
-         } catch (Exception e) {
-             if(!e.getMessage().contains("exist"))
-                 throw  e;
-         }
+         filterIndexExistException(r,"exist");
      }
 }

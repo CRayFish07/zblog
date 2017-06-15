@@ -100,8 +100,17 @@ public class BlogCfg {
     public String strAccessDenied = "DENIED:没有权限,必须登录";
     public String strLogin = "登录";
 
+    public String strComment = "评论";
+    public String strAllComments = "所有评论";
+    public String strPostComment = "发表评论";
     public int maxCommentLen = 1024;
     public String strCommentLimit = "评论不能为空,最多%d个字母,支持普通文本、markdown格式";
+    public String strCommentor = "评论人";
+    public String strCommentorLimit = "评论人不能为空,最多%d个汉字或字母";
+
+    public String strRobotCheck = "输入左侧图片中文字";
+    public String strChangeRobotCheckImg = "看不清换一张";
+    public String strInvalidRobotCheckCode = "验证码错误";
 
 
     public String getBlogName() {
@@ -311,6 +320,38 @@ public class BlogCfg {
 
     public String getStrCommentLimit() {
         return String.format(strCommentLimit,maxCommentLen);
+    }
+
+    public String getStrCommentor() {
+        return strCommentor;
+    }
+
+    public String getStrCommentorLimit() {
+        return String.format(strCommentorLimit,maxAuthorLen);
+    }
+
+    public String getStrComment() {
+        return strComment;
+    }
+
+    public String getStrPostComment() {
+        return strPostComment;
+    }
+
+    public String getStrAllComments() {
+        return strAllComments;
+    }
+
+    public String getStrRobotCheck() {
+        return strRobotCheck;
+    }
+
+    public String getStrChangeRobotCheckImg() {
+        return strChangeRobotCheckImg;
+    }
+
+    public String getStrInvalidRobotCheckCode() {
+        return strInvalidRobotCheckCode;
     }
 
     public static void main(String[] args) throws IOException {

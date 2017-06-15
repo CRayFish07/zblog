@@ -1,9 +1,12 @@
 package zb.blog.model;
 
+import org.apache.ibatis.annotations.Update;
+
 /**
  * Created by zhmt on 2017/5/26.
  */
 public class BlogCommentRow {
+    
     public String blogUid;  //blogid;
     public Long dt;
     //当前保存了几条评论

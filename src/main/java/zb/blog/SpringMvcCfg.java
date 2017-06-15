@@ -3,6 +3,7 @@ package zb.blog;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,9 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/index.html");
     }
+
+    @Autowired
+    private BlogCfg blogCfg;
 
     /**
      * 支持跨域访问,支持跨域带cookie
@@ -92,7 +96,13 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
         registrationBean.setOrder(1);
         return registrationBean;
     }
-    
+
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return (container -> {
+            container.setPort(blogCfg.dataServerPort);
+        });
+    }
 
     
 //    @Bean

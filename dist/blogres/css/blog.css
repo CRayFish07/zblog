@@ -25,3 +25,11 @@ body {
     margin-top: 9rem;
 }
 
+.pagination > li {
+    margin-left:0.3rem;
+    margin-right:0.3rem;
+}
+
+
+
+

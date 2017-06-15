@@ -11,6 +11,7 @@ import java.io.IOException;
  */
 public class DistPacker {
     public static void main(String[] args) throws Exception {
+        BlogCfg.main(null);
         copyFileToDist("blogCfg.txt");
         copyFileToDist("run.sh");
         coptDirToDist("blogres/css");

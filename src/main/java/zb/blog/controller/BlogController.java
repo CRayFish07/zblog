@@ -1,5 +1,6 @@
 package zb.blog.controller;
 
+import org.apache.catalina.loader.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -12,10 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import zb.blog.BlogCfg;
 import zb.blog.dao.BlogContentMapper;
 import zb.blog.dao.BlogMetaMapper;
-import zb.blog.model.BlogComment;
-import zb.blog.model.BlogCommentRow;
-import zb.blog.model.BlogContent;
-import zb.blog.model.BlogMeta;
+import zb.blog.model.*;
 import zb.blog.security.LoginRequired;
 import zb.blog.service.BlogService;
 import zb.blog.service.CommentService;
@@ -27,6 +25,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 /**
  * Created by zhmt on 2017/5/26.
  */
@@ -37,6 +37,7 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
     private CommentService commentService;
     
     @Autowired
@@ -119,17 +120,24 @@ public class BlogController {
     }
 
     @PostMapping("/blog/comment")
-    public void postBlogComment(String blogUid,String author,String comment,HttpServletRequest request) {
+    public void postBlogComment(String blogUid,String commentor,String comment,String robotCheckCode,HttpServletRequest request) {
+        if(StringUtils.isBlank(robotCheckCode) ||
+                !robotCheckCode.equalsIgnoreCase((String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY)) ) {
+            throw new RuntimeException(blogCfg.strInvalidRobotCheckCode);
+        }
+        request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+
+
         if(StringUtils.isBlank(blogUid)) {
             throw new RuntimeException("blogUid cant be null.");
         }
-        if(StringUtils.isBlank(author) || author.length()>blogCfg.maxAuthorLen)  {
-            throw  new RuntimeException(blogCfg.getStrAuthorLimit());
+        if(StringUtils.isBlank(commentor) || commentor.length()>blogCfg.maxAuthorLen)  {
+            throw  new RuntimeException(blogCfg.getStrCommentorLimit());
         }
-        if(StringUtils.isBlank(comment) || author.length()>blogCfg.maxCommentLen)  {
+        if(StringUtils.isBlank(comment) || comment.length()>blogCfg.maxCommentLen)  {
             throw  new RuntimeException(blogCfg.getStrCommentLimit());
         }
-        commentService.postComment(blogUid,author,comment,request.getRemoteHost());
+        commentService.postComment(blogUid,commentor,comment,request.getRemoteHost());
     }
 
 //    @PutMapping("/blog/comment")
@@ -138,7 +146,12 @@ public class BlogController {
 //    }
 
     @GetMapping("/blog/comment")
-    public String getBlogComment(String uid,Integer page) {
-        return UUID.randomUUID().toString();
+    public CommentPage getBlogComment(String blogUid, Integer page) {
+        if(blogUid==null)
+            throw new RuntimeException("blogUid cant be null.");
+        if(page==null)
+             page = 1;
+        
+        return commentService.getCommentJson(blogUid,page);
     }
 }

@@ -10,6 +10,7 @@ import zb.blog.dao.BlogCommentMapper;
 import zb.blog.dao.BlogMetaMapper;
 import zb.blog.model.BlogComment;
 import zb.blog.model.BlogCommentRow;
+import zb.blog.model.CommentPage;
 import zb.blog.util.ExceptionUtil;
 import zb.blog.util.ThreadService;
 
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @Service
 public class CommentService {
+    public static final int ROWS_PER_PAGE = 2;
     @Autowired
     private BlogMetaMapper blogMetaMapper;
 
@@ -54,7 +56,8 @@ public class CommentService {
             BlogComment blogComment = newBlogComment(blogUid,author,comment,ip,row);
 
             List<BlogComment> commentList = deserialComment(row);
-            commentList.add(blogComment);
+            //保证列表前面的是最新评论
+            commentList.add(0,blogComment);
             row.commentCount = commentList.size();
             row.content = serialComment(commentList);
 
@@ -64,12 +67,17 @@ public class CommentService {
                 blogCommentMapper.put(row);
         });
     }
+    
 
     public String getCommentEtag(String blogUid, int page) {
-         BlogCommentRow row = blogCommentMapper.getPageEtag(blogUid,page-1);
-         if(row==null)
+        List<BlogCommentRow> rows = blogCommentMapper.getPageEtag(blogUid,(page-1)*ROWS_PER_PAGE,ROWS_PER_PAGE);
+         if(rows==null)
              return null;
-         return row.dt+"."+row.commentCount;
+         String ret = "";
+         for(BlogCommentRow row:rows) {
+            ret += row.dt+"."+row.commentCount;
+         }
+         return Integer.toString(ret.hashCode());
     }
 
     /**
@@ -78,16 +86,41 @@ public class CommentService {
      * @param page
      * @return
      */
-    public String getCommentJson(String blogUid, int page) {
-        return blogCommentMapper.get(blogUid,page-1).getContent();
+    public CommentPage getCommentJson(String blogUid, int page) {
+        if(page<1)
+            page = 1;
+        int pageCount = getCommentPageCount(blogUid);
+        if(pageCount>0 && page>pageCount) {
+            page = pageCount;
+        }
+
+        List<BlogCommentRow> rows = blogCommentMapper.get(blogUid,(page-1)*ROWS_PER_PAGE,ROWS_PER_PAGE);
+        if(rows==null || rows.size()<=0)
+            return null;
+
+        CommentPage ret = new CommentPage();
+        ret.page = page;
+        ret.pageCount = pageCount;
+        ret.last = ret.page<=1?ret.page:ret.page-1;
+        ret.next = ret.page>=ret.pageCount?ret.page:ret.page+1;
+        ret.list = new LinkedList<>();
+        for(BlogCommentRow row : rows) {
+            ret.list.addAll(deserialComment(row));
+        }
+
+        return ret;
     }
 
     /**
-     * 获取评论页数
+     * 获取评论页数,两条记录算作一页
      * @return
      */
     public int getCommentPageCount(String blogUid) {
-        return blogCommentMapper.countForOneBlog(blogUid);
+        Integer ret = blogCommentMapper.countForOneBlog(blogUid);
+        if (ret == null)
+            return 0;
+        ret = ret / ROWS_PER_PAGE + (ret % ROWS_PER_PAGE > 0 ? 1 : 0);
+        return ret;
     }
 
     /**

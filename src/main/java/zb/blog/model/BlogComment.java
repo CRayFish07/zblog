@@ -1,8 +1,11 @@
 package zb.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by zhmt on 2017/5/26.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BlogComment {
     public String blogUid;
     public Long rowDt;
@@ -43,5 +46,9 @@ public class BlogComment {
 
     public String getComment() {
         return comment;
+    }
+
+    public String getDtStr() {
+         return BlogMeta.formatDate(dt);
     }
 }

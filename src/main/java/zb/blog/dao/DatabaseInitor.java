@@ -3,7 +3,9 @@ package zb.blog.dao;
 import org.apache.ibatis.annotations.Update;
 
 /**
- * 如果当前记录发生变化，要修改updatedt,用updatedt作为eTag字段，判断是否更改
+ * 如果当前记录发生变化，要修改updatedt,用updatedt作为eTag字段，判断是否更改   .
+ *
+ * 字段名尽量与javabean属性名一致，比如属性名位userId，那么字段名也取userId，而不user_id.不然，mybatis做字段映射时比较麻烦。
  * Created by zhmt on 2017/5/26.
  *
  */
@@ -28,15 +30,21 @@ public interface DatabaseInitor {
             "content CLOB(1M))")
     void createTableBlogContent();
 
-    //每条记录存储20条评论
     @Update("CREATE TABLE IF NOT EXISTS blog_comment" +
-            "(uid VARCHAR(36) ," +
+            "(blog_uid VARCHAR(36) ," +
             "dt BIGINT NOT NULL, " +
             "comment_count INT NOT NULL,"+
             "content CLOB(1M))")
     void createTableComment();
 
-    @Update("CREATE INDEX comment_uid_dt ON blog_comment(uid,dt)")
+    //数据库升级，把uid改为blog_uid
+    @Update("ALTER TABLE blog_comment ALTER COLUMN uid RENAME TO blog_uid")
+    void renameCommentUidToBlogUid();
+
+    //数据库升级，废除索引 comment_uid_dt，启用 comment_bloguid_dt
+    @Update("DROP INDEX IF EXISTS comment_uid_dt")
+    void dropTableCommentIndexUidSeq();
+    @Update("CREATE INDEX comment_bloguid_dt ON blog_comment(blog_uid,dt)")
     void createTableCommentIndexUidSeq();
 
     @Update("CREATE TABLE IF NOT EXISTS blog_homeabout (uid VARCHAR(36) PRIMARY KEY , content VARCHAR(36))")

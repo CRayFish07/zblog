@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import zb.blog.BlogCfg;
 import zb.blog.controller.BlogController;
-import zb.blog.service.SessionMap;
 import zb.blog.util.ReflectionUtil;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -32,9 +32,6 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private BlogCfg blogCfg;
-
-    @Autowired
-    private SessionMap sessionMap;
 
     public  ControllerInterceptor() {
         List<Class<?>> classList = ReflectionUtil.getClassHasAnnotation(BlogController.class.getPackage().getName(),RestController.class);
@@ -99,14 +96,40 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
     private static List<Condition> conditions = new ArrayList<>();
 
+//    private SessionMap.Session getSession(HttpServletRequest request,HttpServletResponse response) {
+//        System.out.println(request.getSession().getId());
+//        String sid = request.getParameter("sid");
+//        if(StringUtils.isBlank(sid)) {
+//            if (request.getCookies() != null) {
+//                for (Cookie one : request.getCookies()) {
+//                    if ("blogSid".equals(one.getName())) {
+//                        sid = one.getValue();
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//
+//        System.out.println(sessionMap.get(sid));
+//
+//        SessionMap.Session session;
+//        if(StringUtils.isBlank(sid) || sessionMap.get(sid)==null) {
+//            session = sessionMap.newSession();
+//            Cookie cookie = new Cookie("blogSid",session.getSid());
+//            cookie.setPath("/");
+//
+//            response.addCookie(cookie);
+//        } else {
+//            session = sessionMap.get(sid);
+//        }
+//        return session;
+//    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         for(Condition cond:conditions) {
             if(cond.match(request)) {
-                //System.out.println("match \t " + request.getRequestURI());
-                //if(request.getSession().getAttribute("login")==null) {
-                String sid = request.getParameter("sid");
-                if(StringUtils.isBlank(sid) || sessionMap.get(sid)==null) {
+                if(request.getSession().getAttribute("login")==null) {
                     throw new RuntimeException(blogCfg.strAccessDenied);
                 }
             }

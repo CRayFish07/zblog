@@ -1,39 +1,41 @@
-function setLoginCookie(sid) {
-    $.cookie("sid",sid);
-}
-
-function getLoginSid() {
-    return $.cookie("sid");
-}
-
-function addSidForUrl(url) {
-    var sid = getLoginSid();
-    if($.isBlank(sid))
-        return url;
-
-    if(url.indexOf("?")>=0) {
-        url = url+"&sid="+sid;
-    } else{
-        url = url+"?sid="+sid;
-    }
-    return url;
-}
+// function setLoginCookie(sid) {
+//     $.cookie("sid",sid);
+// }
+//
+// function getLoginSid() {
+//     return $.cookie("sid");
+// }
+//
+// function addSidForUrl(url) {
+//     var sid = getLoginSid();
+//     if($.isBlank(sid))
+//         return url;
+//
+//     if(url.indexOf("?")>=0) {
+//         url = url+"&sid="+sid;
+//     } else{
+//         url = url+"?sid="+sid;
+//     }
+//     return url;
+// }
 
 function mypost(url, data) {
-    url = addSidForUrl(url);
+   // url = addSidForUrl(url);
     return $.ajax({
         type: "POST",
         url: url,
         xhrFields: { withCredentials: true },
+        crossDomain: true,
         data: data,
     });
 }
 function myget(url, data) {
-    url = addSidForUrl(url);
+   // url = addSidForUrl(url);
     return $.ajax({
         type: "GET",
         url: url,
         xhrFields: { withCredentials: true },
+        crossDomain: true,
         data: data,
     });
 }
@@ -47,10 +49,10 @@ function initLoginHandler() {
     $("#buttonLoginSubmit").click(function (e) {
         $("#buttonLoginSubmit").prop("disabled",true);
         var password = $("#inputLoginPassword").val();
-        var jqxhr = mypost(dataRootUrl+"/login" , {
+        mypost(dataRootUrl+"/login" , {
             password:        password
         }).done(function(data, textStatus, jqXHR) {
-            setLoginCookie(jqXHR.responseText);
+            //setLoginCookie(jqXHR.responseText);
             $("#modalLogin").modal("hide");
         }).fail(function(jqXHR, textStatus, errorThrown) {
             var json = $.parseJSON(jqXHR.responseText);
@@ -105,13 +107,6 @@ function setMarked() {
     marked.setOptions({
         breaks: true
     });
-}
-
-function getFileTreeListUrl() {
-    var sid = getLoginSid();
-    if(!$.isBlank(sid))
-        sid = "?sid="+sid;
-    return fileTreeListUrl+sid;
 }
 
 initLoginHandler();

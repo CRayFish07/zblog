@@ -3,13 +3,11 @@ function refreshFileTree() {
 }
 
 function initDropzone() {
-
-    
     var myDropzone = new Dropzone("#formPostFile",{
         init: function() {
             this.on("drop", function(file) {
                 var url = dataRootUrl+"/file";
-                url = addSidForUrl(url);
+                //url = addSidForUrl(url);
                 this.options.url = url;
             });
             this.on("complete", function(file) {
@@ -17,7 +15,8 @@ function initDropzone() {
             });
         },
         dictDefaultMessage : strPleaseDragUploadingFilesHere,
-        uploadMultiple : false
+        uploadMultiple : false ,
+        withCredentials : true
     });
 }
 
@@ -124,10 +123,12 @@ function initFileTree() {
     $('#treeContainer').jstree({
         'core' : {
             'data' : {
-                "url" : getFileTreeListUrl(),
+                "url" : fileTreeListUrl,
                 "data" : function (node) {
                     return { "dir" : node.id };
-                }
+                } ,
+                xhrFields: { withCredentials: true },
+                crossDomain: true,
             }
         }
     });
