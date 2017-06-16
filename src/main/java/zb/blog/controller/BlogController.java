@@ -62,13 +62,12 @@ public class BlogController {
      * 发表博文
      * @param title
      * @param author
-     * @param password
      * @param content
      * @return
      */
     @LoginRequired 
     @PostMapping("/blog")
-    public String postBlog(String uid,String title,String author,String password,String content) {
+    public String postBlog(String uid,String title,String author,String content) {
         
         if(StringUtils.isBlank(title) || title.length()>blogCfg.maxTitleLen) {
             throw new RuntimeException( blogCfg.getStrTitleLimit());
@@ -76,9 +75,7 @@ public class BlogController {
         if(StringUtils.isBlank(author) || author.length()>blogCfg.maxAuthorLen) {
             throw new RuntimeException( blogCfg.getStrAuthorLimit());
         }
-//        if(StringUtils.isBlank(password) || title.length()>blogCfg.maxPasswordLen) {
-//            return blogCfg.getStrPasswordLimit();
-//        }
+
         if(StringUtils.isBlank(content) || title.length()>blogCfg.maxContentLen) {
             throw new RuntimeException( blogCfg.getStrContentLimit());
         }
@@ -87,6 +84,17 @@ public class BlogController {
             return blogService.postBlog(title,author,content);
         else
             return blogService.putBlog(uid,title,author,content);
+    }
+
+    @LoginRequired
+    @PostMapping("/blog/delete")
+    public void deleteBlog(String uid) {
+        if(StringUtils.isBlank(uid)) {
+            throw  new RuntimeException("uid cant be null");
+        }
+        blogService.deleteBlog(uid);
+        int deleted2 = commentService.deleteByBlogUid(uid);
+        return;
     }
 
     @ExceptionHandler(RuntimeException.class)
@@ -99,20 +107,12 @@ public class BlogController {
         response.sendError(status.value(),ex==null?"null":ex.getMessage());
     }
 
-//    @PutMapping("/blog/meta")
-//    public String putBlogMeta(BlogMeta blogMeta) {
-//        return UUID.randomUUID().toString();
-//    }
 
     @GetMapping("/blog/meta")
     public BlogMeta getBlogMeta(String uid) {
         return blogService.getBlogMeta(uid);
     }
-
-//    @PutMapping("/blog/content")
-//    public String putBlogContent(BlogCommentRow content) {
-//        return UUID.randomUUID().toString();
-//    }
+    
     
     @GetMapping("/blog/content")
     public BlogContent getBlogContent(String uid) {
@@ -127,7 +127,6 @@ public class BlogController {
         }
         request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
 
-
         if(StringUtils.isBlank(blogUid)) {
             throw new RuntimeException("blogUid cant be null.");
         }
@@ -140,10 +139,6 @@ public class BlogController {
         commentService.postComment(blogUid,commentor,comment,request.getRemoteHost());
     }
 
-//    @PutMapping("/blog/comment")
-//    public String putBlogComment(BlogComment comment) {
-//        return UUID.randomUUID().toString();
-//    }
 
     @GetMapping("/blog/comment")
     public CommentPage getBlogComment(String blogUid, Integer page) {
@@ -153,5 +148,24 @@ public class BlogController {
              page = 1;
         
         return commentService.getCommentJson(blogUid,page);
+    }
+
+    @LoginRequired
+    @PostMapping("/blog/comment/delete")
+    public void deleteComment(String blogUid,Long rowDt,String author,Long dt) {
+        if(StringUtils.isBlank(blogUid)) {
+            throw new RuntimeException("blogUid cant be null");
+        }
+        if(rowDt==null) {
+            throw new RuntimeException("rawDt cant be null");
+        }
+        if(StringUtils.isBlank(author)) {
+            throw new RuntimeException("author cant be null");
+        }
+        if(dt==null) {
+            throw new RuntimeException("dt cant be null");
+        }
+
+        commentService.deleteComment(blogUid,rowDt,author,dt);
     }
 }

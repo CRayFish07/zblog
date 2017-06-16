@@ -39,13 +39,14 @@ public class HtmlGen {
 
     private static Ftl[] allFiles = new Ftl[]{
             new Ftl("index.html.ftl",false),
+            new Ftl("index1.html.ftl",true),
             new Ftl("var.js.ftl",false),
-            new Ftl("bloglist.html.ftl",false),
-            new Ftl("about.html.ftl",false),
-            new Ftl("postblog.html.ftl",false) ,
-            new Ftl("postfile.html.ftl",false) ,
+            new Ftl("bloglist.html.ftl",true),
+            new Ftl("about.html.ftl",true),
+            new Ftl("postblog.html.ftl",true) ,
+            new Ftl("postfile.html.ftl",true) ,
             //new Ftl("style.min.css.ftl",false) ,
-            new Ftl("blogdetail.html.ftl",false)
+            new Ftl("blogdetail.html.ftl",true)
     };
 
     public HtmlGen() {

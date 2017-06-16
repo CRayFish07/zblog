@@ -4,11 +4,11 @@ function postBlog() {
         title:      $("#title").val(),
         author:     $("#author").val(),
         //password:   $("#password").val(),
-        uid:        $.urlParam("uid"),
+        uid:        $("#inputBlogUid").val(),
         content:    $("#content").val()
     }).done(function(data, textStatus, jqXHR) {
         //showMsgTip("OK", data );
-        $(location).attr('href','blogdetail.html?uid='+jqXHR.responseText);
+        $(location).attr('href','index.html?zblogurl=blogdetail.jsp%3fuid%3d'+jqXHR.responseText);
     }).fail(function(jqXHR, textStatus, errorThrown) {
         var json = $.parseJSON(jqXHR.responseText);
         showMsgTip( "ERR: " + textStatus, json.message );
@@ -17,8 +17,8 @@ function postBlog() {
 }
 
 function loadBlog() {
-    var blogId = $.urlParam('uid');
-    if(blogId==null)
+    var blogId = $("#inputBlogUid").val();
+    if($.isBlank(blogId))
         return;
 
     myget(dataRootUrl+"/blog/meta" , {

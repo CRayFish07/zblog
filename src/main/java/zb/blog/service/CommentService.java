@@ -68,6 +68,29 @@ public class CommentService {
         });
     }
     
+    public int deleteByBlogUid(String blogUid) {
+        return blogCommentMapper.deleteByBlogUid(blogUid);
+    }
+
+    public int deleteComment(String blogUid,long rowDt,String author,long dt) {
+        return threadService.exeAndWait(blogUid,()->{
+            BlogCommentRow row = blogCommentMapper.getRow(blogUid,rowDt);
+            if(row==null)
+                return 0;
+
+            List<BlogComment> commentList = deserialComment(row);
+            for(BlogComment one : commentList) {
+                if(author.equals(one.author) && dt==one.dt) {
+                    one.deleted = true;
+                    row.content = serialComment(commentList);
+                    blogCommentMapper.put(row);
+                    return 1;
+                }
+            }
+
+            return 0;
+        });
+    }
 
     public String getCommentEtag(String blogUid, int page) {
         List<BlogCommentRow> rows = blogCommentMapper.getPageEtag(blogUid,(page-1)*ROWS_PER_PAGE,ROWS_PER_PAGE);
@@ -106,6 +129,10 @@ public class CommentService {
         ret.list = new LinkedList<>();
         for(BlogCommentRow row : rows) {
             ret.list.addAll(deserialComment(row));
+        }
+        for (BlogComment one : ret.list) {
+            if(one.deleted)
+                one.comment = blogCfg.strCommentDeleted;
         }
 
         return ret;

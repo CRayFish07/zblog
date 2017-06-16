@@ -8,7 +8,7 @@
         <ul class="list-group ">
             <li class="list-group-item list-group-item-info">
                 <div>
-                    <a href="blogdetail.html?uid=${blogMeta.uid}">${blogMeta.title}</a> <br>
+                    <a href="index.html?zblogurl=blogdetail.jsp%3fuid%3d${blogMeta.uid}">${blogMeta.title}</a> <br>
                     <small>by ${blogMeta.author}</small><br>
                     <small>${blogMeta.dtStr}</small>
                 </div>
@@ -27,7 +27,7 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" href="bloglist.html?page=${blogPage.last}" aria-label="Previous">
+                    <a class="page-link" href="index.html?zblogurl=bloglist.jsp%3fpage%3d${blogPage.last}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -40,7 +40,7 @@
                     </form>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="bloglist.html?page=${blogPage.next}" aria-label="Next">
+                    <a class="page-link" href="index.html?zblogurl=bloglist.jsp%3fpage%3d${blogPage.next}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>

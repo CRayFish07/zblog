@@ -51,5 +51,13 @@ public interface BlogCommentMapper {
     @Select("SELECT * FROM blog_comment WHERE blog_uid=#{blogUid} AND comment_count<" + COMMENTS_PER_ROW + " ORDER BY dt DESC LIMIT 1")
     BlogCommentRow getFreeRow(String blogUid);
 
+    @Update("DELETE FROM blog_comment WHERE blog_uid=#{blogUid}")
+    int deleteByBlogUid(String blogUid);
 
+    @Results(value = {
+            @Result(id = true, property = "blogUid", column = "blog_uid"),
+            @Result(property = "commentCount", column = "comment_count")
+    })
+    @Select("SELECT * FROM blog_comment WHERE blog_uid=#{blogUid} AND dt=#{dt}")
+    BlogCommentRow getRow(@Param("blogUid")String blogUid,@Param("dt")long dt);
 }

@@ -12,7 +12,7 @@
 
 <div id="listContent" class="container">
 
-    
+  <#include "comm/list.content.html.ftl">
   
 </div> <!-- /container -->
 

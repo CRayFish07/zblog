@@ -23,9 +23,10 @@
         <div  class="list-group-item">
             <div >
                 <a class="btn btn-warning" role="button" id="editBlog" href="#">${cfg.strEdit}</a>
+                <input id="buttonDeleteBlog" class="btn btn-danger" type="button" value="${cfg.strDelete}" >
                 <input id="buttonSetHome" class="btn btn-secondary" type="button" value="${cfg.strSetAsHome}">
                 <input id="buttonSetAbout" class="btn btn-secondary" type="button" value="${cfg.strSetAsAbout}">
-                <input id="textBlogId" type="text" hidden>
+                <input id="textBlogId" type="text" value="${blogUid}" hidden>
             </div>
         </div>
         <div class="list-group-item">
@@ -36,9 +37,9 @@
 
 
     <!--发表评论-->
-    <div class="list-group" style="margin-top: 2rem">
+    <div class="list-group offset-1 col-10" style="margin-top: 2rem">
         <div  class="list-group-item list-group-item-success">
-            <form id="formPostComment" class="col-12">
+            <form id="formPostComment" class="col-12" >
                 <div class="form-group ">
                     <label for="inputCommentor" >${cfg.strCommentor}</label>
                     <input type="text" class="form-control" id="inputCommentor" placeholder="${cfg.strCommentorLimit}">
@@ -63,9 +64,13 @@
     <!--查看评论-->
     <div hidden id="divCommentSample" hidden>
         <div class="list-group-item list-group-item-success" style="margin-top: 0.8rem" >
-            <div class="col-12">
-                <div class="">
+            <div class="col-12 row justify-content-between ">
+                <div >
                     <span>2017-6-3</span> <small>${cfg.strCommentor}</small> <span>时代封俊</span>
+                </div>
+                <div >
+                    <input type="button" class="btn btn-danger btn-sm" onclick="deleteComment(this)" value="${cfg.strDelete}">
+                    <textarea hidden></textarea>
                 </div>
             </div>
         </div>
@@ -120,6 +125,7 @@
 
 <#include "comm/navbar.bottom.html.ftl">
 <#include "comm/msgtip.html.ftl">
+<#include "comm/confirm.win.html.ftl">
 <#include "comm/common.js.ftl">
 <script src="${cfg.rootUrl}/js/marked.min.js"></script>
 <script src="${cfg.rootUrl}/js/blogdetail.js"></script>

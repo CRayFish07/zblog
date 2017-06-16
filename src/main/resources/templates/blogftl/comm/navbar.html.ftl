@@ -11,10 +11,10 @@
                 <a class="nav-link" href="index.html">${cfg.strHome} <span class="sr-only">(current)</span></a>
             </li>
             <li id="navBlogList" class="nav-item">
-                <a class="nav-link" href="bloglist.html">${cfg.strBlogList} </a>
+                <a class="nav-link" href="index.html?zblogurl=bloglist.jsp">${cfg.strBlogList} </a>
             </li>
             <li id="navAbout" class="nav-item">
-                <a class="nav-link" href="about.html">${cfg.strAbout}</a>
+                <a class="nav-link" href="index.html?zblogurl=about.jsp">${cfg.strAbout}</a>
             </li>
         </ul>
         <ul class="navbar-nav">
@@ -22,10 +22,10 @@
                 <a class="nav-link" href="javascript:showLogin()">${cfg.strLogin}</a>
             </li>
             <li id="navPostBlog" class="nav-item" >
-                <a class="nav-link" href="postblog.html">${cfg.strPostBlog}</a>
+                <a class="nav-link" href="index.html?zblogurl=postblog.jsp">${cfg.strPostBlog}</a>
             </li>
             <li id="navPostFile" class="nav-item" >
-                <a class="nav-link" target="_blank" href="postfile.html">${cfg.strPostFile}</a>
+                <a class="nav-link" target="_blank" href="index.html?zblogurl=postfile.jsp">${cfg.strPostFile}</a>
             </li>
         </ul>
     </div>

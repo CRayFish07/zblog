@@ -56,6 +56,13 @@ public class BlogService {
         return meta.uid;
     }
 
+    @Transactional
+    public void deleteBlog(String uid) {
+        System.out.println(uid);
+        System.out.println(blogMetaMapper.delete(uid));;
+        System.out.println(blogContentMapper.delete(uid));;
+    }
+
     //获取列表，无需排队 1-xxx
     public List<BlogMeta> list(int pageNum) {
         return blogMetaMapper.getList((pageNum-1)*blogCfg.blogListPageSize,blogCfg.blogListPageSize);

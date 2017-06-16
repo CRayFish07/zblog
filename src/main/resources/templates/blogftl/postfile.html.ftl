@@ -76,7 +76,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">${cfg.strClose}</button>
-                <a class="btn btn-primary" href="postfile.html">${cfg.strFinishPostFile}</a>
+                <a class="btn btn-primary" href="index.html?zblogurl=postfile.jsp">${cfg.strFinishPostFile}</a>
             </div>
         </div>
     </div>

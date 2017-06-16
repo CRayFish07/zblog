@@ -55,8 +55,12 @@
   "strCommentLimit" : "评论不能为空,最多1024个字母,支持普通文本、markdown格式",
   "strCommentor" : "评论人",
   "strCommentorLimit" : "评论人不能为空,最多64个汉字或字母",
+  "strCommentDeleted" : "该评论已删除",
   "strRobotCheck" : "输入左侧图片中文字",
   "strChangeRobotCheckImg" : "看不清换一张",
   "strInvalidRobotCheckCode" : "验证码错误",
+  "strConfirmDelete" : "确认删除？",
+  "strYes" : "是",
+  "strNo" : "否",
   "rootUrl" : "http://127.0.0.1:8080"
 }

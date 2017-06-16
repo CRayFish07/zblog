@@ -12,6 +12,7 @@
 
 <div class="container">
     <h1 class="text-center">${cfg.strPostBlog}</h1>
+    <input id="inputBlogUid" value='${blogUid!""}' hidden>
     <form id="postBlogForm">
         <div class="form-group row">
             <label for="title" class="offset-sm-1 col-sm-1 col-form-label">${cfg.strTitle}</label>

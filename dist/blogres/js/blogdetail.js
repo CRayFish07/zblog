@@ -1,8 +1,8 @@
 var curCommentData = null;
 
 function loadBlog() {
-    var blogId = $.urlParam('uid');
-    if(blogId==null)
+    var blogId = $("#textBlogId").val();
+    if($.isBlank(blogId))
         return;
 
     myget(dataRootUrl+"/blog/meta" , {
@@ -12,7 +12,7 @@ function loadBlog() {
         $("#blogTitle").html(json.title);
         $("#blogAuthor").html(json.author);
         $("#blogDt").html(json.dtStr);
-        $("#editBlog").attr("href","postblog.html?uid="+json.uid)
+        $("#editBlog").attr("href","index.html?zblogurl=postblog.jsp%3fuid%3d"+json.uid)
         $("#textBlogId").val(json.uid);
         document.title = document.title +" " + json.title;
         loadComments(1);
@@ -82,10 +82,31 @@ function postComment() {
 
 }
 
+function deleteBlog() {
+    showConfirmDeleteWnd(function () {
+        var blogUid = $("#textBlogId").val();
+        if($.isBlank(blogUid))
+            return;
+
+        var url = "/blog/delete";
+        mypost(dataRootUrl+url , {
+            uid:    blogUid
+        }).done(function(data, textStatus, jqXHR) {
+            location.reload();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            var json = $.parseJSON(jqXHR.responseText);
+            showMsgTip( "ERR: " + textStatus, json.message );
+        })
+    });
+}
+
 /**
  * 初始化button点击处理函数
  */
 function initButtonHandlers() {
+    $("#buttonDeleteBlog").click(function () {
+        deleteBlog();
+    })
     $("#buttonSetHome").click(function (e) {
         setHomeabout("/setting/home");
     });
@@ -106,10 +127,12 @@ function loadComments(pageNum) {
        return;
     
     var sample = $("#divCommentSample");
-    var spanDt = $("#divCommentSample > div.list-group-item.list-group-item-success > div > div > span:nth-child(1)");
-    var spanCommentor = $("#divCommentSample > div.list-group-item.list-group-item-success > div > div > span:nth-child(3)");
+    var spanDt = $("#divCommentSample > div.list-group-item.list-group-item-success > div > div:nth-child(1) > span:nth-child(1)");
+    var spanCommentor = $("#divCommentSample > div.list-group-item.list-group-item-success > div > div:nth-child(1) > span:nth-child(3)");
     var divComment = $("#divCommentSample > div:nth-child(2) > div > div");
     var listGroupComment = $("#listGroupComment");
+
+    var inputHidden = $("#divCommentSample > div.list-group-item.list-group-item-success > div > div:nth-child(2) > textarea");
 
     var url = "/blog/comment";
     myget(dataRootUrl+url , {
@@ -119,17 +142,19 @@ function loadComments(pageNum) {
         var rsp = jqXHR.responseText;
         if(!$.isBlank(rsp)) {
             listGroupComment.html("");
-            var json = $.parseJSON(jqXHR.responseText);
+            var json = JSON.parse(jqXHR.responseText);
             curCommentData = json;
             $("#inputJumpCommentPage").val(json.page);
             $("#spanPageCount").text(json.pageCount);
             for(var i=0;i<json.list.length; i++) {
-                spanDt.html(json.list[i].dtStr);
-                spanCommentor.html(json.list[i].author);
+                spanDt.text(json.list[i].dtStr);
+                spanCommentor.text(json.list[i].author);
+                inputHidden.val(JSON.stringify(json.list[i]));
                 var html = prepareMarkdownText(json.list[i].comment);
                 html = marked(html);
                 divComment.html(html);
-                listGroupComment.append(sample.html());
+                listGroupComment.append(sample.children().first().clone());
+                listGroupComment.append(sample.children().first().next().clone());
             }
         }
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -148,6 +173,26 @@ function loadCommentNextPage() {
 
 function loadCommentJumpPage() {
     loadComments( $("#inputJumpCommentPage").val());
+}
+
+function deleteComment(btn) {
+    showConfirmDeleteWnd(function () {
+        var commentData = JSON.parse($(btn).next().val());
+        var postData = {
+            blogUid:commentData.blogUid,
+            rowDt:commentData.rowDt,
+            author:commentData.author,
+            dt : commentData.dt
+        };
+        var url = "/blog/comment/delete";
+        mypost(dataRootUrl+url , postData
+        ).done(function(data, textStatus, jqXHR) {
+            loadComments(curCommentData.page);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            var json = $.parseJSON(jqXHR.responseText);
+            showMsgTip( "ERR: " + textStatus, json.message );
+        })
+    });
 }
 
 function changeRobotCheckImg() {

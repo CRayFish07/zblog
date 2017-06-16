@@ -107,10 +107,15 @@ public class BlogCfg {
     public String strCommentLimit = "评论不能为空,最多%d个字母,支持普通文本、markdown格式";
     public String strCommentor = "评论人";
     public String strCommentorLimit = "评论人不能为空,最多%d个汉字或字母";
+    public String strCommentDeleted = "该评论已删除";
 
     public String strRobotCheck = "输入左侧图片中文字";
     public String strChangeRobotCheckImg = "看不清换一张";
     public String strInvalidRobotCheckCode = "验证码错误";
+
+    public String strConfirmDelete  = "确认删除？";
+    public String strYes            = "是";
+    public String strNo             = "否";
 
 
     public String getBlogName() {
@@ -352,6 +357,22 @@ public class BlogCfg {
 
     public String getStrInvalidRobotCheckCode() {
         return strInvalidRobotCheckCode;
+    }
+
+    public String getStrCommentDeleted() {
+        return strCommentDeleted;
+    }
+
+    public String getStrConfirmDelete() {
+        return strConfirmDelete;
+    }
+
+    public String getStrYes() {
+        return strYes;
+    }
+
+    public String getStrNo() {
+        return strNo;
     }
 
     public static void main(String[] args) throws IOException {
