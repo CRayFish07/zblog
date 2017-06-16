@@ -30,8 +30,8 @@ public class StaticResCache {
      * @return true if the request is filtered.
      */
     public boolean doFilter(HttpServletRequest req, HttpServletResponse rsp) {
-        String etag = req.getHeader("If-None-Match");
-        long timestamp = etag == null ? 0 : Long.parseLong(etag);
+//        String etag = req.getHeader("If-None-Match");
+//        long timestamp = etag == null ? 0 : Long.parseLong(etag);
         Long updateDt = null;
         long cacheTimeInSeconds = 0;
 
@@ -46,14 +46,32 @@ public class StaticResCache {
 
 
         if(updateDt!=null) {
-            rsp.addHeader("Cache-Control", "private, max-age=" + cacheTimeInSeconds);
-            if ((long) updateDt == timestamp) {
-                sendNotModified(rsp);
+            if(processEtag(req,rsp,updateDt+"",cacheTimeInSeconds)) {
                 return true;
-            } else {
-                rsp.addHeader("ETag", "" + updateDt);
             }
         }
+        return false;
+    }
+
+    /**
+     * 能否直接返回
+     * @param req
+     * @param rsp
+     * @param curEtag
+     * @param cacheTimeInSeconds
+     * @return
+     */
+    public static boolean processEtag(HttpServletRequest req,HttpServletResponse rsp,String curEtag,long cacheTimeInSeconds) {
+        String etag = req.getHeader("If-None-Match");
+
+        rsp.addHeader("Cache-Control", "private, max-age=" + cacheTimeInSeconds);
+        if(etag!=null && etag.equals(curEtag)) {
+            sendNotModified(rsp);
+            return true;
+        } else {
+            rsp.addHeader("ETag", "" + curEtag);
+        }
+
         return false;
     }
 

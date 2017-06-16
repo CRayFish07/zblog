@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import zb.blog.BlogCfg;
+import zb.blog.cache.StaticResCache;
 import zb.blog.dao.BlogContentMapper;
 import zb.blog.dao.BlogMetaMapper;
 import zb.blog.model.*;
@@ -141,11 +142,16 @@ public class BlogController {
 
 
     @GetMapping("/blog/comment")
-    public CommentPage getBlogComment(String blogUid, Integer page) {
+    public CommentPage getBlogComment(String blogUid, Integer page,HttpServletRequest req, HttpServletResponse rsp) {
         if(blogUid==null)
             throw new RuntimeException("blogUid cant be null.");
         if(page==null)
              page = 1;
+
+        String curEtag = commentService.getCommentEtag(blogUid,page);
+        if(StaticResCache.processEtag(req,rsp,curEtag,1)) {
+            return  null;
+        }
         
         return commentService.getCommentJson(blogUid,page);
     }
