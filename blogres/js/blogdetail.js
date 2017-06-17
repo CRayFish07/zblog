@@ -153,8 +153,9 @@ function loadComments(pageNum) {
                 var html = prepareMarkdownText(json.list[i].comment);
                 html = marked(html);
                 divComment.html(html);
-                listGroupComment.append(sample.children().first().clone());
-                listGroupComment.append(sample.children().first().next().clone());
+                var firstChild = sample.children().first();
+                listGroupComment.append(firstChild.clone());
+                listGroupComment.append(firstChild.next().clone());
             }
         }
     }).fail(function(jqXHR, textStatus, errorThrown) {
