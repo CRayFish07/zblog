@@ -96,35 +96,6 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
     private static List<Condition> conditions = new ArrayList<>();
 
-//    private SessionMap.Session getSession(HttpServletRequest request,HttpServletResponse response) {
-//        System.out.println(request.getSession().getId());
-//        String sid = request.getParameter("sid");
-//        if(StringUtils.isBlank(sid)) {
-//            if (request.getCookies() != null) {
-//                for (Cookie one : request.getCookies()) {
-//                    if ("blogSid".equals(one.getName())) {
-//                        sid = one.getValue();
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//        System.out.println(sessionMap.get(sid));
-//
-//        SessionMap.Session session;
-//        if(StringUtils.isBlank(sid) || sessionMap.get(sid)==null) {
-//            session = sessionMap.newSession();
-//            Cookie cookie = new Cookie("blogSid",session.getSid());
-//            cookie.setPath("/");
-//
-//            response.addCookie(cookie);
-//        } else {
-//            session = sessionMap.get(sid);
-//        }
-//        return session;
-//    }
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         for(Condition cond:conditions) {

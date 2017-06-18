@@ -87,7 +87,7 @@ public class SpringMvcCfg extends WebMvcConfigurerAdapter {
     @Autowired
     private WebFilter webFilter;
     @Bean
-    public FilterRegistrationBean getDemoFilter(){
+    public FilterRegistrationBean addWebFilter(){
         FilterRegistrationBean registrationBean=new FilterRegistrationBean();
         registrationBean.setFilter(webFilter);
         List<String> urlPatterns=new ArrayList<String>();

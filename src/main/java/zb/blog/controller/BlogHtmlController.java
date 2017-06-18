@@ -31,34 +31,18 @@ public class BlogHtmlController {
     @Autowired
     private BlogCfg blogCfg;
 
-    @Autowired
-    private freemarker.template.Configuration freeMarkerConfiguration;
-
-    private static final int LONG_TERM_CACHE_TIME = 3600*24*30;
-
     @GetMapping("/index1.jsp")
     public String getIndex1(ModelMap model, HttpServletRequest req, HttpServletResponse rsp) {
         String ftlName = "blogftl/index1.html";
-        String curEtag = Long.toString(getFtlLastModifyTime(ftlName));
-        if(StaticResCache.processEtag(req,rsp,curEtag,LONG_TERM_CACHE_TIME)) {
-            return  null;
-        }
         model.put("cfg", blogCfg);
         return ftlName;
     }
 
-    private static long getFtlLastModifyTime(String ftlName) {
-        File f = new File(BlogHtmlController.class.getResource("/templates/"+ftlName+".ftl").getFile());
-        return f.lastModified();
-    }
+    
 
     @GetMapping("/about.jsp")
     public String getAbout(ModelMap model,HttpServletRequest req, HttpServletResponse rsp) {
         String ftlName ="blogftl/about.html";
-        String curEtag = Long.toString(getFtlLastModifyTime(ftlName));
-        if(StaticResCache.processEtag(req,rsp,curEtag,LONG_TERM_CACHE_TIME)) {
-            return  null;
-        }
         model.put("cfg", blogCfg);
         return ftlName;
     }
@@ -66,11 +50,6 @@ public class BlogHtmlController {
     @GetMapping("/postfile.jsp")
     public String getPostFile(ModelMap model,HttpServletRequest req, HttpServletResponse rsp) {
         String ftlName ="blogftl/postfile.html";
-        String curEtag = Long.toString(getFtlLastModifyTime(ftlName));
-        if(StaticResCache.processEtag(req,rsp,curEtag,LONG_TERM_CACHE_TIME)) {
-            return  null;
-        }
-
         model.put("cfg", blogCfg);
         return ftlName;
     }
@@ -88,13 +67,6 @@ public class BlogHtmlController {
             throw new RuntimeException("Uid cant be null.");
 
         String ftlName = "blogftl/blogdetail.html";
-        Long dt = blogService.getMetaUpdatedt(uid);
-        Long ftlDt = getFtlLastModifyTime(ftlName);
-        String curEtag = Integer.toString((dt+""+ftlDt).hashCode());
-        if(StaticResCache.processEtag(req,rsp,curEtag,LONG_TERM_CACHE_TIME)) {
-            return null;
-        }
-
         model.put("cfg", blogCfg);
         model.put("blogUid",uid);
         return ftlName;
