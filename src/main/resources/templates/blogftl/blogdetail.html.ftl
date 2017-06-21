@@ -2,6 +2,7 @@
 <html lang="${cfg.lang}">
 <head>
 <#include "comm/common.header.ftl">
+    <link rel="stylesheet" href="${cfg.rootUrl}/highlight/styles/default.css">
 
     <title>${cfg.strBlogDetail} - </title>
 
@@ -127,6 +128,7 @@
 <#include "comm/msgtip.html.ftl">
 <#include "comm/confirm.win.html.ftl">
 <#include "comm/common.js.ftl">
+<script src="${cfg.rootUrl}/highlight/highlight.pack.js"></script>
 <script src="${cfg.rootUrl}/js/marked.min.js"></script>
 <script src="${cfg.rootUrl}/js/blogdetail.js"></script>
 </body>

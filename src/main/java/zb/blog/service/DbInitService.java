@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import zb.blog.dao.DatabaseInitor;
 
 import javax.annotation.PostConstruct;
-import java.sql.SQLSyntaxErrorException;
 
 /**
  * Created by zhmt on 2017/5/26.
@@ -24,21 +23,24 @@ public class DbInitService {
         databaseInitor.setDefaultTableType();
 
         databaseInitor.createTableBlogMeta();
-        filterIndexExistException(()->databaseInitor.createBlogMetaIndexUpdatedt());
+        filterExistsException(()->databaseInitor.addColToTableBlogMeta());
+        filterExistsException(()->databaseInitor.createBlogMetaIndexUpdatedt());
 
         databaseInitor.createTableBlogContent();
 
         databaseInitor.createTableComment();
-        filterIndexExistException(()->databaseInitor.renameCommentUidToBlogUid(),"not found");
+        filterException(()->databaseInitor.renameCommentUidToBlogUid(),"not found");
         databaseInitor.dropTableCommentIndexUidSeq();
-        filterIndexExistException(()->databaseInitor.createTableCommentIndexUidSeq());
+        filterExistsException(()->databaseInitor.createTableCommentIndexUidSeq());
 
         databaseInitor.createTableHomeAndAbout();
+
+        databaseInitor.createTablePvStatLog();
 
         log.info("......DATABASE inited......");
     }
 
-    private void filterIndexExistException(Runnable r,String str) {
+    private void filterException(Runnable r, String str) {
         try {
             r.run();
         } catch (Exception e) {
@@ -47,7 +49,7 @@ public class DbInitService {
         }
     }
 
-     private void filterIndexExistException(Runnable r) {
-         filterIndexExistException(r,"exist");
+     private void filterExistsException(Runnable r) {
+         filterException(r,"exist");
      }
 }

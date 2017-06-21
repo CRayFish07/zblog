@@ -3,6 +3,7 @@ package zb.blog.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import zb.blog.cache.StaticResCache;
+import zb.blog.service.StatService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,9 @@ public class WebFilter implements Filter{
     @Autowired
     private StaticResCache staticResCache;
 
+    @Autowired
+    private StatService statService;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         //System.out.println("==>DemoFilter启动");
@@ -28,6 +32,8 @@ public class WebFilter implements Filter{
         HttpServletRequest req = (HttpServletRequest)request;
         HttpServletResponse rsp = (HttpServletResponse)response;
         //System.out.println(req.getRequestURI());
+
+        statService.stat(req);
 
         if(staticResCache.doFilter(req,rsp)) {
             return;

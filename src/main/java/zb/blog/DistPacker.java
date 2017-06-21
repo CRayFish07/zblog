@@ -16,6 +16,7 @@ public class DistPacker {
         copyFileToDist("run.sh");
         coptDirToDist("blogres/css");
         coptDirToDist("blogres/js");
+        coptDirToDist("blogres/highlight");
     }
 
     private static void copyFileToDist(String filepath) throws IOException {
