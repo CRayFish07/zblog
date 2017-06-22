@@ -7,7 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 使对同一个博文的操作串行化
+ * 使对同一个博文的操作串行化 .
+ * 注意，这相当于是加了"不可重入锁"，千万不要尝试"重入"。
  * Created by zhmt on 2017/5/31.
  */
 @Component

@@ -8,9 +8,12 @@
         <ul class="list-group ">
             <li class="list-group-item list-group-item-info">
                 <div>
+                    <span class="badge badge-info">${statMap.getPeople(blogMeta.uid)}</span>
+                    <span class="badge badge-danger">${comments.getCommentCount(blogMeta.uid)}</span>
                     <a href="index.html?zblogurl=blogdetail.jsp%3fuid%3d${blogMeta.uid}">${blogMeta.title}</a> <br>
                     <small>by ${blogMeta.author}</small><br>
                     <small>${blogMeta.dtStr}</small>
+
                 </div>
             </li>
         </ul>

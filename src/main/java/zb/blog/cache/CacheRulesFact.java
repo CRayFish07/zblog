@@ -6,9 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import zb.blog.controller.BlogHtmlController;
 import zb.blog.service.BlogService;
+import zb.blog.util.ExceptionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
 
 @Component
 public class CacheRulesFact {
-    private static final int LONG_TERM_CACHE_TIME = 3600*24*30;
+    private static final int LONG_TERM_CACHE_TIME = 3600*24*30; //in seconds
     
     @Bean
     public List<ClientCacheRule> clientCacheRuleList() {
@@ -65,7 +67,7 @@ public class CacheRulesFact {
                 String ftlName = "blogftl/blogdetail.html";
                 Long dt = blogService.getMetaUpdatedt(uid);
                 Long ftlDt = getFtlLastModifyTime(ftlName);
-                String curEtag = Integer.toString((dt+""+ftlDt).hashCode());
+                String curEtag = (dt+"."+ftlDt);//Integer.toString((dt+""+ftlDt).hashCode());
                 return curEtag;
             }
         });
@@ -88,7 +90,14 @@ public class CacheRulesFact {
     }
 
     private static long getFtlLastModifyTime(String ftlName) {
-        File f = new File(BlogHtmlController.class.getResource("/templates/"+ftlName+".ftl").getFile());
-        return f.lastModified();
+        String name = "/templates/"+ftlName+".ftl";
+        URL url = CacheRulesFact.class.getResource(name);
+        // FIXED  File f = new File(BlogHtmlController.class.getResource("/templates/"+ftlName+".ftl").getFile());
+        //return f.lastModified();
+        return ExceptionUtil.castException(()->{return url.openConnection().getLastModified();});
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getFtlLastModifyTime("blogftl/blogdetail.html"));
     }
 }

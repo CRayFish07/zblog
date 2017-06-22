@@ -14,10 +14,7 @@ import zb.blog.model.*;
 import zb.blog.util.ExceptionUtil;
 import zb.blog.util.ThreadService;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by zhmt on 2017/5/31.
@@ -45,7 +42,7 @@ public class BlogService {
         meta.author = author;
         meta.dt = timenow;
         meta.updatedt = timenow;
-        meta.uid = UUID.randomUUID().toString();
+        meta.uid = genBlogUid();
         BlogContent blogContent = new BlogContent();
         blogContent.content = content;
         blogContent.dt = timenow;
@@ -58,7 +55,7 @@ public class BlogService {
 
     @Transactional
     public void deleteBlog(String uid) {
-        System.out.println(uid);
+        //System.out.println(uid);
         System.out.println(blogMetaMapper.delete(uid));;
         System.out.println(blogContentMapper.delete(uid));;
     }
@@ -129,24 +126,32 @@ public class BlogService {
 
     @Transactional
     public String putBlog(String uid, String title, String author, String content) {
-        BlogContent blogContent = blogContentMapper.get(uid);
-        BlogMeta meta = blogMetaMapper.get(uid);
-        if(blogContent==null || meta==null)
-            throw new RuntimeException(blogCfg.strBlogNotExists);
-        long timenow = System.currentTimeMillis();
-        meta.updatedt = timenow;
-        meta.title = title;
-        meta.author = author;
-        blogContent.content = content;
-        blogContent.updatedt = timenow;
-        blogMetaMapper.put(meta);
-        blogContentMapper.put(blogContent);
-        return uid;
+        return threadService.exeAndWait(uid,()->{
+            BlogContent blogContent = blogContentMapper.get(uid);
+            BlogMeta meta = blogMetaMapper.get(uid);
+            if(blogContent==null || meta==null)
+                throw new RuntimeException(blogCfg.strBlogNotExists);
+            long timenow = System.currentTimeMillis();
+            meta.updatedt = timenow;
+            meta.title = title;
+            meta.author = author;
+            blogContent.content = content;
+            blogContent.updatedt = timenow;
+            blogMetaMapper.put(meta);
+            blogContentMapper.put(blogContent);
+            return uid;
+        });
     }
 
     public Long getMetaUpdatedt(String uid) {
         return blogMetaMapper.getUpdatedt(uid);
     }
 
+    private static String genBlogUid() {
+        return Long.toString(System.currentTimeMillis());
+    }
 
+    public static void main(String[] args) {
+         System.out.println(System.currentTimeMillis()+"."+ Math.random());
+    }
 }

@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import zb.blog.BlogCfg;
 import zb.blog.cache.StaticResCache;
+import zb.blog.model.ArticleStatMap;
+import zb.blog.model.BlogCommentRowMap;
 import zb.blog.model.BlogMeta;
 import zb.blog.model.BlogPage;
 import zb.blog.service.BlogService;
+import zb.blog.service.CommentService;
+import zb.blog.service.StatService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,6 +35,12 @@ public class BlogHtmlController {
 
     @Autowired
     private BlogCfg blogCfg;
+
+    @Autowired
+    private StatService statService;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/index1.jsp")
     public String getIndex1(ModelMap model, HttpServletRequest req, HttpServletResponse rsp) {
@@ -77,9 +88,23 @@ public class BlogHtmlController {
         if(page==null)
             page = 1;
         BlogPage blogPage = blogService.getPage(page);
+        ArticleStatMap stat = null;
+        BlogCommentRowMap comments = null;
+        if(blogPage!=null && blogPage.list!=null) {
+            List<String> blogUidList = new LinkedList<>();
+            for (List<BlogMeta> oneList : blogPage.list) {
+                for(BlogMeta one:oneList) {
+                    blogUidList.add(one.uid);
+                }
+            }
+            stat = new ArticleStatMap(statService.getByIdList(blogUidList)) ;
+            comments = new BlogCommentRowMap(commentService.doCountReplyForBlogList(blogUidList));
+        }
 
         model.put("cfg", blogCfg);
         model.put("blogPage", blogPage);
+        model.put("statMap", stat);
+        model.put("comments", comments);
         return  "blogftl/bloglist.html";
     }
 }

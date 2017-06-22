@@ -23,19 +23,19 @@ public class DbInitService {
         databaseInitor.setDefaultTableType();
 
         databaseInitor.createTableBlogMeta();
-        filterExistsException(()->databaseInitor.addColToTableBlogMeta());
-        filterExistsException(()->databaseInitor.createBlogMetaIndexUpdatedt());
+        filterException(()->databaseInitor.createBlogMetaIndexUpdatedt(),"BLOG_META_UPDATEDT");
 
         databaseInitor.createTableBlogContent();
 
         databaseInitor.createTableComment();
         filterException(()->databaseInitor.renameCommentUidToBlogUid(),"not found");
         databaseInitor.dropTableCommentIndexUidSeq();
-        filterExistsException(()->databaseInitor.createTableCommentIndexUidSeq());
+        filterException(()->databaseInitor.createTableCommentIndexUidSeq(),"COMMENT_BLOGUID_DT");
 
         databaseInitor.createTableHomeAndAbout();
 
         databaseInitor.createTablePvStatLog();
+        databaseInitor.createTableArticleStat();
 
         log.info("......DATABASE inited......");
     }
@@ -48,8 +48,4 @@ public class DbInitService {
                 throw  e;
         }
     }
-
-     private void filterExistsException(Runnable r) {
-         filterException(r,"exist");
-     }
 }

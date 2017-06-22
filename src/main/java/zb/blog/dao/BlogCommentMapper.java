@@ -42,6 +42,21 @@ public interface BlogCommentMapper {
     int countForOneBlog(String blogUid);
 
     /**
+     * 一篇博客共有多少评论
+     * @param blogUid
+     * @return
+     */
+    @Select("SELECT SUM(comment_count) FROM blog_comment WHERE blog_uid=#{blogUid}")
+    int countReplyForOneBlog(String blogUid);
+
+    @Select("<script> SELECT blog_uid AS blogUid ,SUM(comment_count) AS commentCount " +
+            "FROM blog_comment WHERE blog_uid IN " +
+            "<foreach item='item' index='index' collection='blogUidList' open='(' separator=',' close=')'> #{item} </foreach> "+
+            "GROUP BY blog_uid"+
+            "</script>")
+    List<BlogCommentRow>  countReplyForBlogList(@Param("blogUidList") List<String> blogUidList);
+
+    /**
      * 获取未满的记录
      */
     @Results(value = {

@@ -20,10 +20,10 @@ public interface DatabaseInitor {
             "author VARCHAR(64) NOT NULL, " +
             "title VARCHAR(128) NOT NULL) ")
     void createTableBlogMeta();
-    @Update("ALTER TABLE blog_meta ADD COLUMN pv BIGINT")
-    void addColToTableBlogMeta();
+//    @Update("ALTER TABLE blog_meta ADD COLUMN pv BIGINT")
+//    void addColToTableBlogMeta();
 
-    @Update("CREATE INDEX IF NOT EXISTS blog_meta_updatedt ON blog_meta(updatedt)")
+    @Update("CREATE INDEX blog_meta_updatedt ON blog_meta(updatedt)")
     void createBlogMetaIndexUpdatedt();
 
     @Update("CREATE TABLE IF NOT EXISTS blog_content" +
@@ -46,7 +46,7 @@ public interface DatabaseInitor {
     //数据库升级，废除索引 comment_uid_dt，启用 comment_bloguid_dt
     @Update("DROP INDEX IF EXISTS comment_uid_dt")
     void dropTableCommentIndexUidSeq();
-    @Update("CREATE INDEX IF NOT EXISTS comment_bloguid_dt ON blog_comment(blog_uid,dt)")
+    @Update("CREATE INDEX comment_bloguid_dt ON blog_comment(blog_uid,dt)")
     void createTableCommentIndexUidSeq();
 
     @Update("CREATE TABLE IF NOT EXISTS blog_homeabout (uid VARCHAR(36) PRIMARY KEY , content VARCHAR(36))")
@@ -55,9 +55,14 @@ public interface DatabaseInitor {
 
     @Update("CREATE TABLE IF NOT EXISTS blog_statlog (" +
             "justDt BIGINT NOT NULL, " +
-            "blogUid VARCHAR(256) NOT NULL, " +
+            "blogUid VARCHAR(36) NOT NULL, " +
             "ip VARCHAR(36) NOT NULL, " +
             "UNIQUE(justDt,blogUid,ip))")
     void createTablePvStatLog();
+
+    @Update("CREATE TABLE IF NOT EXISTS article_stat (" +
+            "blogUid VARCHAR(36) PRIMARY KEY, " +
+            "people BIGINT DEFAULT 0 NOT NULL )")
+    void createTableArticleStat();
 
 }

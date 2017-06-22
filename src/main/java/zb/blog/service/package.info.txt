@@ -1,0 +1,1 @@
+Service内所有以do开头的方法，内部都不调用ThreadService，可以随意使用。

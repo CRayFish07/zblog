@@ -67,6 +67,10 @@ public class CommentService {
                 blogCommentMapper.put(row);
         });
     }
+
+    public List<BlogCommentRow> doCountReplyForBlogList(List<String> blogUidList) {
+        return blogCommentMapper.countReplyForBlogList(blogUidList);
+    }
     
     public int deleteByBlogUid(String blogUid) {
         return blogCommentMapper.deleteByBlogUid(blogUid);

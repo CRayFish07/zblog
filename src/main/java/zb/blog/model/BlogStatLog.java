@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by zhmt on 2017/6/19.
  */
-public class BlogStat {
+public class BlogStatLog {
     public String blogUid;
     public String ip;
     public Long justDt; //只有日期，不包括时分秒
@@ -35,8 +35,17 @@ public class BlogStat {
         return justDt;
     }
 
+    @Override
+    public String toString() {
+        return "BlogStatLog{" +
+                "blogUid='" + blogUid + '\'' +
+                ", ip='" + ip + '\'' +
+                ", justDt=" + justDt +
+                '}';
+    }
+
     public static void main(String[] args) {
-        BlogStat stat = new BlogStat();
+        BlogStatLog stat = new BlogStatLog();
         stat.setJustDt(System.currentTimeMillis());
     }
 }
